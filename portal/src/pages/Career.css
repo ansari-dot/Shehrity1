@@ -1,0 +1,463 @@
+/* Shehrity Brand Career CSS */
+
+/* Global Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--background);
+    color: var(--text-1);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+
+/* Dashboard Container */
+
+.dashboard-container {
+    background: var(--background);
+    min-height: 100vh;
+    position: relative;
+}
+
+.dashboard-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(21, 72, 125, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(30, 90, 150, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 60%, rgba(21, 72, 125, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+
+/* Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-1);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.display-5 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-muted {
+    color: var(--muted) !important;
+}
+
+
+/* Cards */
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-2);
+    border-color: var(--brand-200);
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 1.5rem 1rem;
+}
+
+.card-content,
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    color: var(--text-1);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-description {
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+
+/* Stats Cards */
+
+.stats-card {
+    background: var(--card-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+
+/* Buttons */
+
+.btn,
+button {
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary,
+.button-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-light));
+    color: white;
+    box-shadow: 0 4px 15px rgba(21, 72, 125, 0.3);
+}
+
+.btn-primary:hover,
+.button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(21, 72, 125, 0.4);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+
+/* Progress Bars */
+
+.progress {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 8px;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--brand), var(--brand-light));
+    border-radius: 10px;
+    transition: width 0.6s ease;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%);
+    background-size: 20px 20px;
+    animation: progress-animation 2s linear infinite;
+}
+
+@keyframes progress-animation {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 20px 0;
+    }
+}
+
+
+/* Icon Containers */
+
+.icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.icon-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.icon-container:hover::before {
+    transform: scale(1);
+}
+
+
+/* Color Variants */
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-dark)) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, var(--success), var(--success-dark)) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, var(--warning), var(--warning-dark)) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, var(--info), var(--info-dark)) !important;
+}
+
+.text-primary {
+    color: var(--brand) !important;
+}
+
+.text-success {
+    color: var(--success) !important;
+}
+
+.text-warning {
+    color: var(--warning) !important;
+}
+
+.text-info {
+    color: var(--info) !important;
+}
+
+
+/* Activity Items */
+
+.activity-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(135deg, var(--brand), var(--brand-light));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.activity-item:hover {
+    background: var(--card-hover);
+    border-color: var(--brand-200);
+    transform: translateX(5px);
+}
+
+.activity-item:hover::before {
+    opacity: 1;
+}
+
+
+/* Chart Container */
+
+.chart-container {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+
+/* Custom Scrollbar */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--brand), var(--brand-light));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-dark);
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 2rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    .card-content,
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+
+/* Animation Classes */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Center the job container */
+
+.career-center {
+    max-width: 850px;
+    /* 🔥 controls how wide the job list gets */
+    margin: 0 auto;
+    /* 🔥 centers it horizontally */
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+
+/* Glassmorphism Effect */
+
+.glass {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-1);
+}
+
+
+/* Floating Elements */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.floating {
+    animation: float 6s ease-in-out infinite;
+}
+
+
+/* Beautiful Hover Effects */
+
+.hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2);
+}
+
+
+/* Gradient Text */
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--brand), var(--brand-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}

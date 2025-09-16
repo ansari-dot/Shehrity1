@@ -1,0 +1,241 @@
+/* Import Google Fonts for Inter */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+/* Global certificate page styles */
+
+.certificate-page {
+    background: var(--background);
+    min-height: 120vh;
+    padding: 60px 0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Container */
+
+.certificate-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Certificate Card */
+
+.certificate-card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-2);
+    border: 2px solid var(--brand);
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Decorative corner accents */
+
+.certificate-card::before,
+.certificate-card::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, var(--brand), transparent);
+    opacity: 0.3;
+}
+
+.certificate-card::before {
+    top: 0;
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.certificate-card::after {
+    bottom: 0;
+    right: 0;
+    clip-path: polygon(100% 100%, 0 100%, 100% 0);
+}
+
+
+/* Certificate Title */
+
+.certificate-title {
+    color: var(--text-1);
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+
+/* Certificate Subtitle */
+
+.certificate-subtitle {
+    color: var(--text-1);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+
+/* Certificate Text */
+
+.certificate-text {
+    color: var(--text-2);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+
+/* Recipient Name */
+
+.certificate-name {
+    color: var(--brand);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}
+
+
+/* Certificate Description */
+
+.certificate-description {
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+
+/* Logo Container */
+
+.certificate-logo-container {
+    margin: 30px 0;
+}
+
+.certificate-logo {
+    max-width: 150px;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+
+/* Signatures */
+
+.certificate-signatures {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    margin-top: 40px;
+}
+
+.signature {
+    flex: 1;
+    max-width: 200px;
+}
+
+.signature-line {
+    border: none;
+    border-top: 2px solid var(--brand);
+    margin: 0 auto 10px;
+    width: 100%;
+}
+
+.signature-text {
+    color: var(--text-1);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+
+/* Download Button */
+
+.download-button {
+    background: linear-gradient(135deg, var(--brand), var(--brand-light));
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.3s ease;
+}
+
+.download-button:hover {
+    background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+}
+
+.button-icon {
+    font-size: 1rem;
+}
+
+
+/* Responsive design */
+
+@media (max-width: 768px) {
+    .certificate-card {
+        padding: 30px;
+    }
+    .certificate-title {
+        font-size: 2.2rem;
+    }
+    .certificate-subtitle {
+        font-size: 1.5rem;
+    }
+    .certificate-name {
+        font-size: 1.8rem;
+    }
+    .certificate-text,
+    .certificate-description {
+        font-size: 0.95rem;
+    }
+    .certificate-signatures {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 20px;
+    }
+    .signature {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .certificate-page {
+        padding: 40px 0;
+    }
+    .certificate-container {
+        padding: 0 15px;
+    }
+    .certificate-card {
+        padding: 20px;
+    }
+}
+
+
+/* Accessibility: Focus states */
+
+.download-button:focus {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+}

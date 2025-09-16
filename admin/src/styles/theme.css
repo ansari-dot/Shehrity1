@@ -1,0 +1,139 @@
+/* Global Theme: Light Navy / Dark / Light Blue */
+:root {
+  --bg-0: #f8fafc;           /* very light */
+  --bg-1: #eef2ff;           /* light blue */
+  --bg-2: #e0e7ff;           /* light indigo */
+  --text-0: #0f172a;         /* slate-900 */
+  --text-1: #1e293b;         /* slate-800 */
+  --muted: #64748b;          /* slate-500 */
+  /* Brand: use a single brand color for all UI accents */
+  --brand: #15487d;
+  --primary-50: #15487d;
+  --primary-100: #15487d;
+  --primary-200: #15487d;
+  --primary-300: #15487d;
+  --primary-400: #15487d;
+  --primary-500: #15487d;
+  --primary-600: #15487d;
+  --primary-700: #15487d;
+  --primary-800: #15487d;
+  --primary-900: #15487d;
+  --indigo-500: #15487d; /* map accent to brand as well */
+  --card-bg: rgba(255,255,255,0.9);
+  --border: rgba(21,72,125,0.20);
+  --shadow-1: 0 10px 30px rgba(21, 72, 125, 0.12);
+  --shadow-2: 0 15px 40px rgba(21, 72, 125, 0.18);
+}
+
+/* Base Reset and Typography */
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text-1);
+  background: linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 40%, var(--bg-2) 100%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scroll and nicer focus */
+* {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Links */
+a {
+  color: var(--primary-700);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--indigo-500);
+}
+
+/* Cards */
+.card-glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-1);
+}
+
+/* Buttons */
+.btn-primary-theme {
+  background: linear-gradient(90deg, var(--primary-900), var(--indigo-500));
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(21, 72, 125, 0.25);
+  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.btn-primary-theme:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(21, 72, 125, 0.35);
+}
+
+.btn-secondary-theme {
+  background: rgba(255,255,255,0.9);
+  color: var(--primary-900);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  font-weight: 600;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-secondary-theme:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+}
+
+/* Inputs */
+.input-theme {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.85);
+  color: var(--text-1);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.input-theme:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+/* Layout helpers */
+.container-page {
+  padding: 20px;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: rgba(21,72,125,0.06);
+}
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-700), var(--indigo-500));
+  border-radius: 8px;
+}
+
+/* Sidebar accent background utility (optional) */
+.sidebar-accent-bg {
+  background: linear-gradient(180deg, rgba(21,72,125,.95), rgba(21,72,125,.95));
+}

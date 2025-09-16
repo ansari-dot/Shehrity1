@@ -1,0 +1,208 @@
+/* Sidebar Container */
+
+.sidebar {
+    width: 280px;
+    min-height: 115vh;
+    background: linear-gradient(160deg, #0a1931 0%, #0f3057 100%);
+    color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* Sidebar Container */
+
+
+/* Sidebar Container */
+
+.sidebar {
+    width: 300px;
+    /* 🔥 slightly slimmer for balance */
+    height: 100vh;
+    background: linear-gradient(160deg, #0a1931 0%, #0f3057 100%);
+    color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Header */
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-header h4 {
+    color: #4dabf7;
+    font-weight: 700;
+}
+
+.sidebar-header .subtitle {
+    color: #adb5bd;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+
+/* Navigation */
+
+.sidebar-nav {
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #dee2e6;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(0, 123, 255, 0.4);
+    border: none;
+}
+
+
+/* Footer */
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+}
+
+.sidebar-btn {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.7rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sidebar-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.profile-btn {
+    border-color: #4dabf7;
+}
+
+.logout-btn {
+    border-color: #dc3545;
+    color: #ff6b6b;
+}
+
+.logout-btn:hover {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+
+/* User avatar section */
+
+.sidebar-user {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.sidebar-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* round image */
+    object-fit: cover;
+    cursor: pointer;
+    border: 3px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-avatar:hover {
+    transform: scale(1.05);
+}
+
+.sidebar-username {
+    margin-top: 0.5em;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white !important;
+}
+
+/* ============================ */
+/* Mobile Drawer Enhancements   */
+/* ============================ */
+
+/* Default transition (applies everywhere) */
+.sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Overlay to dim content when drawer is open */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(1px);
+  z-index: 998;
+}
+
+/* On small screens, sidebar becomes fixed left drawer */
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    width: 80vw; /* responsive width on phones */
+    max-width: 320px;
+    min-width: 260px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Make footer not overlap content when fixed */
+  .sidebar-footer {
+    position: static;
+    margin-top: auto;
+  }
+}
+
+/* On larger screens, ensure the sidebar is static and visible */
+@media (min-width: 992px) {
+  .sidebar {
+    position: relative;
+    transform: none !important;
+    z-index: 1;
+    width: 300px;
+  }
+}
