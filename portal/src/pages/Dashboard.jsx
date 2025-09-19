@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardTitle } from "../ui/Card";
@@ -31,20 +33,42 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const StatCard = ({ icon, title, value, color, isLoading }) => {
+const StatCard = ({ icon, title, value, color = 'var(--brand)', isLoading }) => {
   return (
     <div className="stat-card">
       <div
         className="stat-icon"
         style={{
           background: `linear-gradient(135deg, ${color}, var(--brand-dark))`,
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '12px',
+          width: '48px',
+          height: '48px',
+          flexShrink: 0
         }}
       >
-        {icon}
+        {React.cloneElement(icon, {
+          size: 24,
+          color: 'white'
+        })}
       </div>
       <div className="stat-info">
-        <h2>{title}</h2>
-        <p>{isLoading ? "Loading..." : value}</p>
+        <h3 style={{ 
+          color: 'var(--text-2)',
+          margin: 0,
+          fontSize: '0.875rem',
+          fontWeight: 500,
+          opacity: 0.8
+        }}>{title}</h3>
+        <p style={{ 
+          color: 'var(--brand)',
+          margin: '4px 0 0',
+          fontSize: '1.5rem',
+          fontWeight: 700
+        }}>{isLoading ? "Loading..." : value}</p>
       </div>
     </div>
   );
@@ -132,46 +156,46 @@ export default function Dashboard() {
       {/* Stat Cards */}
       <div className="stats-grid">
         <StatCard
-          icon={<BookOpen size={28} />}
+          icon={<BookOpen />}
           title="Quiz Score"
           value={`${stats.quizScore} / ${stats.totalScore}`}
           isLoading={isLoading}
           color="var(--brand)"
         />
         <StatCard
-          icon={<Award size={28} />}
+          icon={<Award />}
           title="Certificate Status"
           value={stats.hasCertificate ? "Earned" : "In Progress"}
           isLoading={isLoading}
-          color="#28a745"
+          color="var(--brand-600)"
         />
         <StatCard
-          icon={<Target size={28} />}
+          icon={<Target />}
           title="Completion Rate"
           value={`${stats.percentage}%`}
           isLoading={isLoading}
-          color="#17a2b8"
+          color="var(--brand-500)"
         />
         <StatCard
-          icon={<Briefcase size={28} />}
+          icon={<Briefcase />}
           title="Applications"
           value={stats.applicationsCount}
           isLoading={isLoading}
-          color="#dc3545"
+          color="var(--brand-700)"
         />
         <StatCard
-          icon={<TrendingUp size={28} />}
+          icon={<TrendingUp />}
           title="Jobs Available"
           value={stats.totalJobs}
           isLoading={isLoading}
-          color="#ff8c00"
+          color="var(--brand-400)"
         />
         <StatCard
-          icon={<Activity size={28} />}
+          icon={<Activity />}
           title="Services Used"
           value={stats.servicesUsed}
           isLoading={isLoading}
-          color="#6f42c1"
+          color="var(--brand-800)"
         />
       </div>
 
