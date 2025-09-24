@@ -87,20 +87,31 @@ export const adminUserAPI = {
   getAllUsers: () => makeRequest('/user/all'),
   
   // Get user profile
-  getUserProfile: (userId) => makeRequest(`/user/profile/${userId}`),
 };
 
 // Quiz API functions for admin
 export const adminQuizAPI = {
   // Get all quiz results
-  getAllResults: () => makeRequest('/result/all'),
+  getAllResults: () => makeRequest('/admin/quiz/results'),
   
   // Get results for specific user
-  getUserResults: (userId) => makeRequest(`/result/user/${userId}`),
+  getUserResults: (userId) => makeRequest(`/admin/quiz/results/${userId}`),
+};
+
+// Services API functions for admin
+export const adminServicesAPI = {
+  // Get all services
+  getServices: () => makeRequest('/service/get'),
+  
+  // Delete service
+  deleteService: (serviceId) => makeRequest(`/service/${serviceId}`, {
+    method: 'DELETE'
+  })
 };
 
 export default {
   adminCareerAPI,
   adminUserAPI,
   adminQuizAPI,
+  adminServicesAPI,
 };

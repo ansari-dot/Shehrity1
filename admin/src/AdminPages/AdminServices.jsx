@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { PlusCircle, X } from "lucide-react";
+import { PlusCircle, X, Trash2 } from "lucide-react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/AdminServices.css';
 
 export default function AdminServices() {
@@ -12,6 +14,8 @@ export default function AdminServices() {
     serviceType: "Physical Service",
   });
   const [file, setFile] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [serviceToDelete, setServiceToDelete] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -36,6 +40,42 @@ export default function AdminServices() {
     if (e.target.files[0]) setFile(e.target.files[0]);
   };
 
+  const handleDelete = async (serviceId) => {
+    if (!window.confirm('Are you sure you want to delete this service? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      await axios.delete(`${API_URL}/api/service/${serviceId}`, {
+        withCredentials: true,
+      });
+      // Show success message
+      toast.success('Service deleted successfully!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      // Refresh the services list
+      fetchServices();
+    } catch (err) {
+      console.error('Error deleting service:', err.response?.data || err.message);
+      toast.error(err.response?.data?.message || 'Error deleting service', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newService.name || !newService.description || !file) {
@@ -54,18 +94,38 @@ export default function AdminServices() {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
+      
+      // Show success message
+      toast.success('Service added successfully!', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      
+      // Reset form and refresh list
       fetchServices();
       setShowModal(false);
       setNewService({ name: "", description: "", serviceType: "Physical Service" });
       setFile(null);
     } catch (err) {
       console.error("Error adding service:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Error adding service");
+      toast.error(err.response?.data?.message || "Error adding service", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
   return (
     <div className="services-page-container">
+      <ToastContainer />
       <header className="services-header">
         <h1>Our Services</h1>
         <button className="btn-primary-theme" onClick={() => setShowModal(true)}>
@@ -80,7 +140,22 @@ export default function AdminServices() {
             <img src={`${API_URL}${service.image}`} alt={service.name} className="service-card-image" />
             <div className="service-card-content">
               <span className="service-type">{service.type}</span>
-              <h3>{service.name}</h3>
+              <div className="service-card-header">
+                <h3>{service.name}</h3>
+                <button 
+                  className="btn-icon" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (window.confirm('Are you sure you want to delete this service?')) {
+                      handleDelete(service._id);
+                    }
+                  }}
+                  disabled={isDeleting}
+                  title="Delete service"
+                >
+                  <Trash2 size={18} className="icon-danger" />
+                </button>
+              </div>
               <p>{service.description}</p>
             </div>
           </div>

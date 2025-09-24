@@ -47,10 +47,50 @@
   padding: 1.5rem;
 }
 
-.service-card-content h3 {
-  margin: 0 0 0.5rem;
+.service-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-card-header h3 {
+  margin: 0;
   font-size: 1.25rem;
   color: var(--text-1);
+  flex-grow: 1;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.btn-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon-danger {
+  color: var(--danger);
+}
+
+.btn-icon:hover .icon-danger {
+  color: var(--danger-dark);
 }
 
 .service-card-content .service-type {

@@ -6,9 +6,10 @@ import fs from "fs";
 const uploadPathImages = "uploads/services/";
 const uploadPathPDFs = "uploads/certificates/";
 const uploadPathCVs = "uploads/cvs/";
+const uploadPathTeam = "uploads/team/";
 
 // ✅ Create folders if not exist
-[uploadPathImages, uploadPathPDFs, uploadPathCVs].forEach((p) => {
+[uploadPathImages, uploadPathPDFs, uploadPathCVs, uploadPathTeam].forEach((p) => {
   if (!fs.existsSync(p)) {
     fs.mkdirSync(p, { recursive: true });
   }
@@ -22,7 +23,11 @@ const storage = multer.diskStorage({
       cb(null, uploadPathCVs);
     } else if (file.mimetype === "application/pdf") {
       cb(null, uploadPathPDFs);
+    } else if (req.originalUrl.includes('/team/')) {
+      // Team member images go to uploads/team/
+      cb(null, uploadPathTeam);
     } else {
+      // Default to services for other image uploads
       cb(null, uploadPathImages);
     }
   },
