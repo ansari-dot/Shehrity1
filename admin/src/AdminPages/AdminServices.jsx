@@ -11,7 +11,8 @@ export default function AdminServices() {
   const [newService, setNewService] = useState({
     name: "",
     description: "",
-    serviceType: "Physical Service",
+    serviceType: "physical", // Changed to match backend enum
+    highlights: ["", "", ""] // Default to 3 empty highlights
   });
   const [file, setFile] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -34,6 +35,28 @@ export default function AdminServices() {
 
   const handleChange = (e) => {
     setNewService({ ...newService, [e.target.name]: e.target.value });
+  };
+
+  const handleHighlightChange = (index, value) => {
+    const updatedHighlights = [...newService.highlights];
+    updatedHighlights[index] = value;
+    setNewService({ ...newService, highlights: updatedHighlights });
+  };
+
+  const addHighlightField = () => {
+    setNewService({
+      ...newService,
+      highlights: [...newService.highlights, ""]
+    });
+  };
+
+  const removeHighlightField = (index) => {
+    if (newService.highlights.length <= 1) return;
+    const updatedHighlights = newService.highlights.filter((_, i) => i !== index);
+    setNewService({
+      ...newService,
+      highlights: updatedHighlights
+    });
   };
 
   const handleFileChange = (e) => {
@@ -86,7 +109,12 @@ export default function AdminServices() {
     const formData = new FormData();
     formData.append("name", newService.name);
     formData.append("description", newService.description);
-    formData.append("serviceType", newService.serviceType);
+    formData.append("type", newService.serviceType); // Changed from serviceType to type
+    
+    // Handle highlights - filter out empty strings and send as array
+    const validHighlights = newService.highlights.filter(h => h && h.trim() !== '');
+    formData.append("highlights", JSON.stringify(validHighlights));
+    
     formData.append("image", file);
 
     try {
@@ -108,7 +136,12 @@ export default function AdminServices() {
       // Reset form and refresh list
       fetchServices();
       setShowModal(false);
-      setNewService({ name: "", description: "", serviceType: "Physical Service" });
+      setNewService({ 
+        name: "", 
+        description: "", 
+        serviceType: "physical",
+        highlights: ["", "", ""]
+      });
       setFile(null);
     } catch (err) {
       console.error("Error adding service:", err.response?.data || err.message);
@@ -181,14 +214,49 @@ export default function AdminServices() {
               <div className="form-group">
                 <label htmlFor="serviceType">Service Type</label>
                 <select id="serviceType" name="serviceType" value={newService.serviceType} onChange={handleChange} className="input-theme" required>
-                  <option value="Physical Service">Physical Service</option>
-                  <option value="Digital Service">Digital Service</option>
+                  <option value="physical">Physical Service</option>
+                  <option value="digital">Digital Service</option>
+                  <option value="other">Other Service</option>
                 </select>
               </div>
               <div className="form-group">
                 <label htmlFor="image">Image</label>
                 <input type="file" id="image" onChange={handleFileChange} className="input-theme" accept="image/*" required />
                 {file && <img src={URL.createObjectURL(file)} alt="preview" className="image-preview" />}
+              </div>
+              
+              <div className="form-group">
+                <label>Highlights</label>
+                {newService.highlights.map((highlight, index) => (
+                  <div key={index} className="highlight-input-group">
+                    <input
+                      type="text"
+                      value={highlight}
+                      onChange={(e) => handleHighlightChange(index, e.target.value)}
+                      className="input-theme"
+                      placeholder={`Highlight ${index + 1}`}
+                    />
+                    {newService.highlights.length > 1 && (
+                      <button 
+                        type="button" 
+                        onClick={() => removeHighlightField(index)}
+                        className="btn-icon"
+                        style={{ marginLeft: '8px' }}
+                        title="Remove highlight"
+                      >
+                        <X size={16} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button 
+                  type="button" 
+                  onClick={addHighlightField}
+                  className="btn-text"
+                  style={{ marginTop: '8px' }}
+                >
+                  + Add another highlight
+                </button>
               </div>
               <div className="modal-actions">
                 <button type="button" className="btn-secondary-theme" onClick={() => setShowModal(false)}>Cancel</button>

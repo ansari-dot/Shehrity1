@@ -13,10 +13,21 @@ const serviceSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
+      enum: ["digital", "physical", "other"],
     },
     image: {
-      type: String, // store file name only
+      type: String,
       required: false,
+    },
+    highlights: [
+      {
+        type: String,
+        required: false,
+      },
+    ],
+    featured: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

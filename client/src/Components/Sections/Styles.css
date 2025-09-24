@@ -1,0 +1,57 @@
+/* Container */
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+/* Each Slide */
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 340px;   /* card width */
+  height: 340px;  /* card height */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease;
+  border-radius: 2px solid transparent;
+}
+
+/* Image inside slide */
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* prevents distortion */
+  border-radius: 20px;
+}
+
+/* Hover effect */
+.swiper-slide:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation Buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;                  /* button color */
+  background: rgba(0, 0, 0, 0.5); /* dark background */
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Adjust arrow icon size */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px;
+}

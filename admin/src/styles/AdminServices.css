@@ -1,5 +1,54 @@
 /* AdminServices.css */
 
+/* Highlights section styles */
+.highlight-input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.highlight-input-group input {
+  flex-grow: 1;
+}
+
+.highlight-input-group button {
+  margin-left: 0.5rem;
+  color: var(--danger);
+  background: var(--danger-light);
+  border: none;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.highlight-input-group button:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-text:hover {
+  background: var(--primary-light);
+}
+
 .services-page-container {
   padding: 1.5rem;
 }

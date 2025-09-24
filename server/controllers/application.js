@@ -1,50 +1,71 @@
 // controllers/ApplicationController.js
-import Result from "../models/Result.js";
 import Application from "../models/Application.js";
+import Career from "../models/Career.js";
 import { sendApplicationAcceptanceEmail, sendApplicationRejectionEmail } from "../services/nodeMailer.js";
 
 class ApplicationController {
-  // Apply (user must pass quiz)
+  // Apply for job (public submission)
   static async apply(req, res) {
     try {
-      const userId = req.user.id;
-      const { jobId, name, email, coverLetter } = req.body;
+      const userId = req.user?.id; // Optional for logged-in users
+      const { jobId, name, email, phone, coverLetter, jobTitle } = req.body;
       const cv = req.file ? req.file.path : null;
 
-      if (!cv) return res.status(400).json({ message: "CV is required" });
-
-      // 1. Check quiz result
-      const result = await Result.findOne({ userId }).sort({ createdAt: -1 });
-      if (!result || result.percentage < 80) {
-        return res.status(403).json({ 
-          message: "You must score at least 80% in the quiz to apply." 
+      // Validate required fields
+      if (!cv) {
+        return res.status(400).json({ success: false, message: "CV is required" });
+      }
+      if (!name || !email || !phone) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Name, email, and phone are required" 
         });
       }
 
-      // 2. Save application
+      // Verify job exists
+      const job = await Career.findById(jobId);
+      if (!job) {
+        return res.status(404).json({ 
+          success: false, 
+          message: "Job not found" 
+        });
+      }
+
+      // Save application
       const application = new Application({
         userId,
         jobId,
+        jobTitle: jobTitle || job.title,
         name,
         email,
+        phone,
         cv,
-        coverLetter,
+        coverLetter: coverLetter || '',
+        status: 'pending'
       });
+      
       await application.save();
 
-      res.status(201).json({ message: "Application submitted successfully", application });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  }
+      // Send notification email (optional)
+      try {
+        // You can implement email notification here if needed
+        // await sendApplicationReceivedEmail(email, name, job.title);
+      } catch (emailError) {
+        console.error('Failed to send email notification:', emailError);
+        // Don't fail the request if email fails
+      }
 
-  // Get my applications (User only)
-  static async getMyApplications(req, res) {
-    try {
-      const apps = await Application.find({ userId: req.user.id }).populate("jobId");
-      res.json(apps);
+      res.status(201).json({ 
+        success: true, 
+        message: "Application submitted successfully", 
+        application 
+      });
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      console.error('Error submitting application:', err);
+      res.status(500).json({ 
+        success: false, 
+        message: err.message || "Error submitting application" 
+      });
     }
   }
 
