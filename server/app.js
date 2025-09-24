@@ -15,7 +15,7 @@ import resultRoutes from './routes/result.routes.js'
 import quizRoutes from './routes/quiz.routes.js'
 import dashboardRoutes from './routes/dashboard.routes.js';
 import careerRoutes from './routes/career.routes.js'
-import applicationRoutes from './routes/application.routes.js'
+import applicationRoutes from './routes/application.routes.js';
 dotenv.config()
 
 const app = express();

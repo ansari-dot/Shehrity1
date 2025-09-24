@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminLogin from './AdminPages/AdminLogin.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import AdminRegister from './AdminPages/AdminRegister.jsx'
+//import AdminRegister from './AdminPages/AdminRegister.jsx'
 import AdminDashboard from './AdminPages/AdminDashboard.jsx'
 import AdminProfile from './AdminPages/AdminProfile.jsx'
 import AdminQuiz from './AdminPages/AdminQuiz.jsx'
@@ -18,8 +18,7 @@ const router = () => {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<AdminRegister />} />
-                    <Route path="/admin-login" element={<AdminLogin />} />
+                    <Route path="/" element={<AdminLogin />} />
                     <Route path="/admin" element={<ProtectedRoute isAdmin={true} />}>
                         <Route element={<AdminDashboard />}>
                             <Route index element={<AdminDashboardContent />} />
