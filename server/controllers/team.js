@@ -10,17 +10,17 @@ class TeamController {
             console.log("File:", req.file);
 
             if (!req.file) {
-                return res.status(400).json({ 
-                    message: "Please upload an image", 
-                    success: false 
+                return res.status(400).json({
+                    message: "Please upload an image",
+                    success: false
                 });
             }
 
             // Validate member type
             if (!['digital', 'physical'].includes(type)) {
-                return res.status(400).json({ 
-                    message: "Invalid member type. Must be 'digital' or 'physical'", 
-                    success: false 
+                return res.status(400).json({
+                    message: "Invalid member type. Must be 'digital' or 'physical'",
+                    success: false
                 });
             }
 
@@ -51,21 +51,21 @@ class TeamController {
         try {
             const { type } = req.query;
             const query = {};
-            
+
             // Filter by type if provided
             if (type && ['digital', 'physical'].includes(type)) {
                 query.type = type;
             }
-            
+
             const members = await Team.find(query).sort({ createdAt: -1 });
-            return res.status(200).json({ 
-                success: true, 
-                data: members 
+            return res.status(200).json({
+                success: true,
+                members
             });
         } catch (err) {
-            return res.status(500).json({ 
-                message: `Server Error: ${err.message}`, 
-                success: false 
+            return res.status(500).json({
+                message: `Server Error: ${err.message}`,
+                success: false
             });
         }
     }

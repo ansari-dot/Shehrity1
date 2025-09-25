@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { PlusCircle, X, Trash2, Eye, Download, Calendar, MapPin, DollarSign, CheckCircle, XCircle } from "lucide-react";
-import '../styles/AdminCareer.css';
-import { adminCareerAPI } from '../services/api';
+import {
+  PlusCircle,
+  X,
+  Trash2,
+  Eye,
+  Download,
+  Calendar,
+  MapPin,
+  DollarSign,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
+import "../styles/AdminCareer.css";
+import { adminCareerAPI } from "../services/api";
 
 export default function AdminCareer() {
   const [careers, setCareers] = useState([]);
   const [applications, setApplications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showApplicationsModal, setShowApplicationsModal] = useState(false);
-  const [selectedCareerApplications, setSelectedCareerApplications] = useState([]);
+  const [selectedCareerApplications, setSelectedCareerApplications] = useState(
+    []
+  );
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [newCareer, setNewCareer] = useState({
@@ -19,7 +32,7 @@ export default function AdminCareer() {
     type: "Full-time",
     salary: "",
     posted: "Today",
-    applyLink: "https://www.google.com"
+    applyLink: "https://www.google.com",
   });
   const [loading, setLoading] = useState(true);
 
@@ -28,14 +41,13 @@ export default function AdminCareer() {
   const fetchCareers = async () => {
     try {
       const data = await adminCareerAPI.getJobs();
-      console.log('Fetched careers:', data);
       setCareers(data.data || data || []);
     } catch (err) {
       console.error("Error fetching careers:", err.message);
       // Fallback data for testing
       setCareers([
         {
-          _id: '1',
+          _id: "1",
           title: "Frontend Developer",
           company: "Tech Corp",
           location: "Remote",
@@ -44,14 +56,14 @@ export default function AdminCareer() {
           posted: "2 days ago",
         },
         {
-          _id: '2',
+          _id: "2",
           title: "React Developer",
           company: "Startup Inc",
           location: "New York, NY",
           type: "Full-time",
           salary: "$80,000 - $100,000",
           posted: "1 week ago",
-        }
+        },
       ]);
     } finally {
       setLoading(false);
@@ -61,45 +73,59 @@ export default function AdminCareer() {
   const fetchApplications = async () => {
     try {
       const data = await adminCareerAPI.getAllApplications();
-      console.log('Fetched applications:', data);
       setApplications(data.data || data || []);
     } catch (err) {
       console.error("Error fetching applications:", err.message);
       // Add test data to see buttons
       setApplications([
         {
-          _id: 'test1',
-          jobId: { _id: '1', title: 'Frontend Developer', company: 'Tech Corp' },
-          userId: { username: 'John Doe', email: 'john@example.com' },
-          name: 'John Doe',
-          email: 'john@example.com',
-          cv: '/uploads/cvs/john-cv.pdf',
-          coverLetter: 'I am very interested in this position and have 3 years of experience...',
-          status: 'pending',
-          createdAt: new Date().toISOString()
+          _id: "test1",
+          jobId: {
+            _id: "1",
+            title: "Frontend Developer",
+            company: "Tech Corp",
+          },
+          userId: { username: "John Doe", email: "john@example.com" },
+          name: "John Doe",
+          email: "john@example.com",
+          cv: "/uploads/cvs/john-cv.pdf",
+          coverLetter:
+            "I am very interested in this position and have 3 years of experience...",
+          status: "pending",
+          createdAt: new Date().toISOString(),
         },
         {
-          _id: 'test2',
-          jobId: { _id: '2', title: 'Backend Developer', company: 'Dev Solutions' },
-          userId: { username: 'Jane Smith', email: 'jane@example.com' },
-          name: 'Jane Smith',
-          email: 'jane@example.com',
-          cv: '/uploads/cvs/jane-cv.pdf',
-          coverLetter: 'I have 5 years of backend development experience with Node.js...',
-          status: 'pending',
-          createdAt: new Date().toISOString()
+          _id: "test2",
+          jobId: {
+            _id: "2",
+            title: "Backend Developer",
+            company: "Dev Solutions",
+          },
+          userId: { username: "Jane Smith", email: "jane@example.com" },
+          name: "Jane Smith",
+          email: "jane@example.com",
+          cv: "/uploads/cvs/jane-cv.pdf",
+          coverLetter:
+            "I have 5 years of backend development experience with Node.js...",
+          status: "pending",
+          createdAt: new Date().toISOString(),
         },
         {
-          _id: 'test3',
-          jobId: { _id: '3', title: 'Full Stack Developer', company: 'Startup Inc' },
-          userId: { username: 'Mike Johnson', email: 'mike@example.com' },
-          name: 'Mike Johnson',
-          email: 'mike@example.com',
-          cv: '/uploads/cvs/mike-cv.pdf',
-          coverLetter: 'Full stack developer with React and Express expertise...',
-          status: 'approved',
-          createdAt: new Date().toISOString()
-        }
+          _id: "test3",
+          jobId: {
+            _id: "3",
+            title: "Full Stack Developer",
+            company: "Startup Inc",
+          },
+          userId: { username: "Mike Johnson", email: "mike@example.com" },
+          name: "Mike Johnson",
+          email: "mike@example.com",
+          cv: "/uploads/cvs/mike-cv.pdf",
+          coverLetter:
+            "Full stack developer with React and Express expertise...",
+          status: "approved",
+          createdAt: new Date().toISOString(),
+        },
       ]);
     }
   };
@@ -115,7 +141,12 @@ export default function AdminCareer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newCareer.title || !newCareer.company || !newCareer.location || !newCareer.salary) {
+    if (
+      !newCareer.title ||
+      !newCareer.company ||
+      !newCareer.location ||
+      !newCareer.salary
+    ) {
       alert("Please fill all required fields!");
       return;
     }
@@ -131,7 +162,7 @@ export default function AdminCareer() {
         type: "Full-time",
         salary: "",
         posted: "Today",
-        applyLink: "https://www.google.com"
+        applyLink: "https://www.google.com",
       });
       alert("Career added successfully!");
     } catch (err) {
@@ -154,8 +185,8 @@ export default function AdminCareer() {
   };
 
   const viewApplications = (careerId) => {
-    const careerApplications = applications.filter(app => 
-      app.jobId?._id === careerId || app.jobId === careerId
+    const careerApplications = applications.filter(
+      (app) => app.jobId?._id === careerId || app.jobId === careerId
     );
     setSelectedCareerApplications(careerApplications);
     setShowApplicationsModal(true);
@@ -164,14 +195,14 @@ export default function AdminCareer() {
   const downloadCV = (cvPath) => {
     // Create proper download URL
     const fullUrl = `http://localhost:5000/${cvPath}`;
-    console.log('Downloading CV from:', fullUrl);
-    
+    console.log("Downloading CV from:", fullUrl);
+
     // Create a temporary link element for download
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = fullUrl;
-    link.download = cvPath.split('/').pop(); // Get filename from path
-    link.target = '_blank';
-    
+    link.download = cvPath.split("/").pop(); // Get filename from path
+    link.target = "_blank";
+
     // Append to body, click, and remove
     document.body.appendChild(link);
     link.click();
@@ -191,33 +222,55 @@ export default function AdminCareer() {
   // Update application status and send email
   const updateApplicationStatus = async (applicationId, status) => {
     try {
-      const result = await adminCareerAPI.updateApplicationStatus(applicationId, status);
-      
+      const result = await adminCareerAPI.updateApplicationStatus(
+        applicationId,
+        status
+      );
+
       // Update local state
-      setApplications(prev => 
-        prev.map(app => 
-          app._id === applicationId 
-            ? { ...app, status } 
-            : app
+      setApplications((prev) =>
+        prev.map((app) =>
+          app._id === applicationId ? { ...app, status } : app
         )
       );
-      
+
       // Update selected career applications if modal is open
-      setSelectedCareerApplications(prev => 
-        prev.map(app => 
-          app._id === applicationId 
-            ? { ...app, status } 
-            : app
+      setSelectedCareerApplications((prev) =>
+        prev.map((app) =>
+          app._id === applicationId ? { ...app, status } : app
         )
       );
+
+      // Show success message with email status if available
+      let successMessage = `Application ${status} successfully!`;
       
-      // Show success message with email status
-      const emailStatus = result.emailSent ? "Email sent successfully!" : "Email failed to send.";
-      alert(`Application ${status} successfully! ${emailStatus}`);
+      if (result) {
+        if (result.emailSent) {
+          successMessage += " Email sent successfully!";
+        } else if (result.message) {
+          successMessage += ` ${result.message}`;
+        } else if (result.error) {
+          successMessage += ` Note: ${result.error}`;
+        }
+      }
       
+      alert(successMessage);
+      
+      // Close the preview modal if open
+      if (showPreviewModal) {
+        setShowPreviewModal(false);
+      }
     } catch (err) {
-      console.error("Error updating application status:", err.message);
-      alert(`Error updating application status: ${err.message}`);
+      console.error("Error updating application status:", err);
+      let errorMessage = "Error updating application status";
+      
+      if (err.response && err.response.data && err.response.data.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      alert(errorMessage);
     }
   };
 
@@ -236,8 +289,10 @@ export default function AdminCareer() {
     <div className="career-page-container">
       <header className="career-header">
         <h1>Career Management</h1>
-        <button className="btn-primary-theme" onClick={() => setShowModal(true)}>
-          <PlusCircle size={18} style={{ marginRight: '0.5rem' }} />
+        <button
+          className="btn-primary-theme"
+          onClick={() => setShowModal(true)}>
+          <PlusCircle size={18} style={{ marginRight: "0.5rem" }} />
           Add Career
         </button>
       </header>
@@ -251,14 +306,14 @@ export default function AdminCareer() {
               <div className="career-card-header">
                 <h3>{career.title}</h3>
                 <div className="career-actions">
-                  <button 
-                    className="btn-view" 
+                  <button
+                    className="btn-view"
                     onClick={() => viewApplications(career._id)}
                     title="View Applications">
                     <Eye size={16} />
                   </button>
-                  <button 
-                    className="btn-delete" 
+                  <button
+                    className="btn-delete"
                     onClick={() => handleDelete(career._id)}
                     title="Delete Career">
                     <Trash2 size={16} />
@@ -283,9 +338,14 @@ export default function AdminCareer() {
                 </div>
                 <p className="posted-date">Posted {career.posted}</p>
                 <div className="applications-count">
-                  Applications: {applications.filter(app => 
-                    app.jobId?._id === career._id || app.jobId === career._id
-                  ).length}
+                  Applications:{" "}
+                  {
+                    applications.filter(
+                      (app) =>
+                        app.jobId?._id === career._id ||
+                        app.jobId === career._id
+                    ).length
+                  }
                 </div>
               </div>
             </div>
@@ -298,7 +358,10 @@ export default function AdminCareer() {
         <h2>All Applications ({applications.length})</h2>
         {applications.length === 0 ? (
           <div className="no-applications">
-            <p>No applications found. Applications will appear here once users apply for jobs.</p>
+            <p>
+              No applications found. Applications will appear here once users
+              apply for jobs.
+            </p>
           </div>
         ) : (
           <div className="applications-grid">
@@ -307,41 +370,59 @@ export default function AdminCareer() {
                 <div className="application-header">
                   <div className="applicant-info">
                     <h3>{application.name || application.userId?.username}</h3>
-                    <p className="email">{application.email || application.userId?.email}</p>
+                    <p className="email">
+                      {application.email || application.userId?.email}
+                    </p>
                   </div>
-                  <span className={`status-badge status-${application.status || 'pending'}`}>
-                    {application.status || 'pending'}
+                  <span
+                    className={`status-badge status-${
+                      application.status || "pending"
+                    }`}>
+                    {application.status || "pending"}
                   </span>
                 </div>
-                
+
                 <div className="application-details">
                   <div className="job-info">
-                    <p><strong>Position:</strong> {application.jobId?.title || 'N/A'}</p>
-                    <p><strong>Company:</strong> {application.jobId?.company || 'N/A'}</p>
-                    <p><strong>Applied:</strong> {new Date(application.createdAt).toLocaleDateString()}</p>
+                    <p>
+                      <strong>Position:</strong>{" "}
+                      {application.jobId?.title || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Company:</strong>{" "}
+                      {application.jobId?.company || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Applied:</strong>{" "}
+                      {new Date(application.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
 
                 <div className="application-actions">
-                  <button 
+                  <button
                     className="btn-preview"
                     onClick={() => openPreview(application)}>
                     <Eye size={16} />
                     Preview
                   </button>
-                  
-                  {application.status === 'pending' && (
+
+                  {application.status === "pending" && (
                     <>
-                      <button 
+                      <button
                         className="btn-approve"
-                        onClick={() => updateApplicationStatus(application._id, 'approved')}
+                        onClick={() =>
+                          updateApplicationStatus(application._id, "approved")
+                        }
                         title="Approve Application">
                         <CheckCircle size={16} />
                         Accept
                       </button>
-                      <button 
+                      <button
                         className="btn-reject"
-                        onClick={() => updateApplicationStatus(application._id, 'rejected')}
+                        onClick={() =>
+                          updateApplicationStatus(application._id, "rejected")
+                        }
                         title="Reject Application">
                         <XCircle size={16} />
                         Reject
@@ -361,7 +442,9 @@ export default function AdminCareer() {
           <div className="modal-content">
             <header className="modal-header">
               <h2>Add New Career</h2>
-              <button className="btn-action" onClick={() => setShowModal(false)}>
+              <button
+                className="btn-action"
+                onClick={() => setShowModal(false)}>
                 <X size={24} />
               </button>
             </header>
@@ -369,53 +452,53 @@ export default function AdminCareer() {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="title">Job Title *</label>
-                  <input 
-                    type="text" 
-                    id="title" 
-                    name="title" 
-                    value={newCareer.title} 
-                    onChange={handleChange} 
-                    className="input-theme" 
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={newCareer.title}
+                    onChange={handleChange}
+                    className="input-theme"
                     placeholder="e.g. Frontend Developer"
-                    required 
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label htmlFor="company">Company *</label>
-                  <input 
-                    type="text" 
-                    id="company" 
-                    name="company" 
-                    value={newCareer.company} 
-                    onChange={handleChange} 
-                    className="input-theme" 
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    value={newCareer.company}
+                    onChange={handleChange}
+                    className="input-theme"
                     placeholder="e.g. Tech Corp"
-                    required 
+                    required
                   />
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="location">Location *</label>
-                  <input 
-                    type="text" 
-                    id="location" 
-                    name="location" 
-                    value={newCareer.location} 
-                    onChange={handleChange} 
-                    className="input-theme" 
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value={newCareer.location}
+                    onChange={handleChange}
+                    className="input-theme"
                     placeholder="e.g. Remote, New York"
-                    required 
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label htmlFor="type">Job Type *</label>
-                  <select 
-                    id="type" 
-                    name="type" 
-                    value={newCareer.type} 
-                    onChange={handleChange} 
-                    className="input-theme" 
+                  <select
+                    id="type"
+                    name="type"
+                    value={newCareer.type}
+                    onChange={handleChange}
+                    className="input-theme"
                     required>
                     <option value="Full-time">Full-time</option>
                     <option value="Part-time">Part-time</option>
@@ -427,44 +510,47 @@ export default function AdminCareer() {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="salary">Salary *</label>
-                  <input 
-                    type="text" 
-                    id="salary" 
-                    name="salary" 
-                    value={newCareer.salary} 
-                    onChange={handleChange} 
-                    className="input-theme" 
+                  <input
+                    type="text"
+                    id="salary"
+                    name="salary"
+                    value={newCareer.salary}
+                    onChange={handleChange}
+                    className="input-theme"
                     placeholder="e.g. $70,000 - $90,000"
-                    required 
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label htmlFor="posted">Posted</label>
-                  <input 
-                    type="text" 
-                    id="posted" 
-                    name="posted" 
-                    value={newCareer.posted} 
-                    onChange={handleChange} 
-                    className="input-theme" 
+                  <input
+                    type="text"
+                    id="posted"
+                    name="posted"
+                    value={newCareer.posted}
+                    onChange={handleChange}
+                    className="input-theme"
                     placeholder="e.g. Today, 2 days ago"
                   />
                 </div>
               </div>
               <div className="form-group">
                 <label htmlFor="applyLink">Apply Link</label>
-                <input 
-                  type="url" 
-                  id="applyLink" 
-                  name="applyLink" 
-                  value={newCareer.applyLink} 
-                  onChange={handleChange} 
-                  className="input-theme" 
+                <input
+                  type="url"
+                  id="applyLink"
+                  name="applyLink"
+                  value={newCareer.applyLink}
+                  onChange={handleChange}
+                  className="input-theme"
                   placeholder="https://company.com/apply"
                 />
               </div>
               <div className="modal-actions">
-                <button type="button" className="btn-secondary-theme" onClick={() => setShowModal(false)}>
+                <button
+                  type="button"
+                  className="btn-secondary-theme"
+                  onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
                 <button type="submit" className="btn-primary-theme">
@@ -482,27 +568,38 @@ export default function AdminCareer() {
           <div className="modal-content large-modal">
             <header className="modal-header">
               <h2>Applications ({selectedCareerApplications.length})</h2>
-              <button className="btn-action" onClick={() => setShowApplicationsModal(false)}>
+              <button
+                className="btn-action"
+                onClick={() => setShowApplicationsModal(false)}>
                 <X size={24} />
               </button>
             </header>
             <div className="applications-modal-content">
               {selectedCareerApplications.length === 0 ? (
-                <p className="no-applications">No applications found for this career.</p>
+                <p className="no-applications">
+                  No applications found for this career.
+                </p>
               ) : (
                 <div className="applications-list">
                   {selectedCareerApplications.map((application) => (
                     <div key={application._id} className="application-item">
                       <div className="application-header">
-                        <h4>{application.name || application.userId?.username}</h4>
+                        <h4>
+                          {application.name || application.userId?.username}
+                        </h4>
                         <span className="application-date">
                           {new Date(application.createdAt).toLocaleDateString()}
                         </span>
-                        <span className={`status-badge status-${application.status || 'pending'}`}>
-                          {application.status || 'pending'}
+                        <span
+                          className={`status-badge status-${
+                            application.status || "pending"
+                          }`}>
+                          {application.status || "pending"}
                         </span>
                       </div>
-                      <p className="application-email">{application.email || application.userId?.email}</p>
+                      <p className="application-email">
+                        {application.email || application.userId?.email}
+                      </p>
                       {application.coverLetter && (
                         <div className="cover-letter">
                           <strong>Cover Letter:</strong>
@@ -511,23 +608,27 @@ export default function AdminCareer() {
                       )}
                       <div className="application-item-actions">
                         {application.cv && (
-                          <button 
+                          <button
                             className="btn-download"
                             onClick={() => downloadCV(application.cv)}>
                             <Download size={14} />
                             Download CV
                           </button>
                         )}
-                        <button 
+                        <button
                           className="btn-approve"
-                          onClick={() => updateApplicationStatus(application._id, 'approved')}
+                          onClick={() =>
+                            updateApplicationStatus(application._id, "approved")
+                          }
                           title="Approve Application">
                           <CheckCircle size={14} />
                           Approve
                         </button>
-                        <button 
+                        <button
                           className="btn-reject"
-                          onClick={() => updateApplicationStatus(application._id, 'rejected')}
+                          onClick={() =>
+                            updateApplicationStatus(application._id, "rejected")
+                          }
                           title="Reject Application">
                           <XCircle size={14} />
                           Reject
@@ -552,35 +653,48 @@ export default function AdminCareer() {
                 <X size={24} />
               </button>
             </header>
-            
+
             <div className="preview-content">
               <div className="applicant-section">
                 <h3>Applicant Information</h3>
                 <div className="info-grid">
                   <div className="info-item">
                     <label>Name:</label>
-                    <span>{selectedApplication.name || selectedApplication.userId?.username}</span>
+                    <span>
+                      {selectedApplication.name ||
+                        selectedApplication.userId?.username}
+                    </span>
                   </div>
                   <div className="info-item">
                     <label>Email:</label>
-                    <span>{selectedApplication.email || selectedApplication.userId?.email}</span>
+                    <span>
+                      {selectedApplication.email ||
+                        selectedApplication.userId?.email}
+                    </span>
                   </div>
                   <div className="info-item">
                     <label>Position:</label>
-                    <span>{selectedApplication.jobId?.title || 'N/A'}</span>
+                    <span>{selectedApplication.jobId?.title || "N/A"}</span>
                   </div>
                   <div className="info-item">
                     <label>Company:</label>
-                    <span>{selectedApplication.jobId?.company || 'N/A'}</span>
+                    <span>{selectedApplication.jobId?.company || "N/A"}</span>
                   </div>
                   <div className="info-item">
                     <label>Applied Date:</label>
-                    <span>{new Date(selectedApplication.createdAt).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(
+                        selectedApplication.createdAt
+                      ).toLocaleDateString()}
+                    </span>
                   </div>
                   <div className="info-item">
                     <label>Status:</label>
-                    <span className={`status-badge status-${selectedApplication.status || 'pending'}`}>
-                      {selectedApplication.status || 'pending'}
+                    <span
+                      className={`status-badge status-${
+                        selectedApplication.status || "pending"
+                      }`}>
+                      {selectedApplication.status || "pending"}
                     </span>
                   </div>
                 </div>
@@ -591,10 +705,14 @@ export default function AdminCareer() {
                 <div className="cv-info">
                   <div className="cv-name">
                     <label>CV File:</label>
-                    <span>{selectedApplication.cv ? selectedApplication.cv.split('/').pop() : 'No CV uploaded'}</span>
+                    <span>
+                      {selectedApplication.cv
+                        ? selectedApplication.cv.split("/").pop()
+                        : "No CV uploaded"}
+                    </span>
                   </div>
                   {selectedApplication.cv && (
-                    <button 
+                    <button
                       className="btn-download"
                       onClick={() => downloadCV(selectedApplication.cv)}>
                       <Download size={16} />
@@ -615,21 +733,27 @@ export default function AdminCareer() {
                 </div>
               </div>
 
-              {selectedApplication.status === 'pending' && (
+              {selectedApplication.status === "pending" && (
                 <div className="preview-actions">
-                  <button 
+                  <button
                     className="btn-approve"
                     onClick={() => {
-                      updateApplicationStatus(selectedApplication._id, 'approved');
+                      updateApplicationStatus(
+                        selectedApplication._id,
+                        "approved"
+                      );
                       closePreview();
                     }}>
                     <CheckCircle size={16} />
                     Accept Application
                   </button>
-                  <button 
+                  <button
                     className="btn-reject"
                     onClick={() => {
-                      updateApplicationStatus(selectedApplication._id, 'rejected');
+                      updateApplicationStatus(
+                        selectedApplication._id,
+                        "rejected"
+                      );
                       closePreview();
                     }}>
                     <XCircle size={16} />

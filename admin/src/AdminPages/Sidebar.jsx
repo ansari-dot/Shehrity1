@@ -25,7 +25,7 @@ const Sidebar = () => {
       localStorage.removeItem("userRole");
       localStorage.removeItem("userId");
       localStorage.removeItem("userRole");
-      navigate("/admin-login");
+      navigate("/");
     }
     
   };

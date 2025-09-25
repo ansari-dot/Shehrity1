@@ -35,10 +35,14 @@ export default function AdminTeam() {
   const fetchMembers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_URL}/api/team/get`);
-      setMembers(res.data.data || []);
+      const res = await axios.get(`${API_URL}/api/team/get`, {
+        withCredentials: true
+      });
+      console.log('Fetched members:', res.data);
+      setMembers(res.data.members || []);
     } catch (err) {
       console.error("Error fetching members:", err.response?.data || err.message);
+      alert('Failed to load team members. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -94,10 +98,19 @@ export default function AdminTeam() {
     if (!window.confirm("Are you sure you want to delete this member?")) return;
     
     try {
-      await axios.delete(`${API_URL}/api/team/delete/${id}`, { 
-        withCredentials: true 
+      const response = await axios.delete(`${API_URL}/api/team/delete/${id}`, { 
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
-      fetchMembers();
+      
+      if (response.data.success) {
+        setMembers(prev => prev.filter(member => member._id !== id));
+        alert('Team member deleted successfully');
+      } else {
+        throw new Error(response.data.message || 'Failed to delete member');
+      }
     } catch (err) {
       console.error("Error deleting member:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Error deleting member");
