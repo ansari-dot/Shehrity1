@@ -23,17 +23,16 @@ app.use(cookieParser());
 // Configure CORS to allow credentials (cookies) from the frontend
 
 
-app.use(
-    cors({
-        origin: [process.env.PORTAL_PORT, process.env.ADMIN_PORT, process.env.CLIENT_PORT, "https://shehrity.com",
-            "https://www.shehrity.com",
-            "https://admin.shehrity.com",
-            "https://portal.shehrity.com"
-        ],
-
-        credentials: true,
-    })
-);
+app.use(cors({
+    origin: [
+        "https://admin.shehrity.com",
+        "https://portal.shehrity.com",
+        "https://client.shehrity.com"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Serve uploaded files
