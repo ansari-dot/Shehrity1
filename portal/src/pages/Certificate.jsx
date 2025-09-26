@@ -24,7 +24,7 @@ const Certificate = () => {
       }
 
       // Send userId as query param
-      const res = await axios.get(`${path}/api/certificate/my?userId=${userId}`, {
+      const res = await axios.get(`${path}/certificate/my?userId=${userId}`, {
         withCredentials: true,
       });
 

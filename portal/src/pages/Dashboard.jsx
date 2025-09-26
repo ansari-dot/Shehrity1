@@ -94,7 +94,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get(`${path}/api/dashboard/portal/stats`, { withCredentials: true });
+        const res = await axios.get(`${path}/dashboard/portal/stats`, { withCredentials: true });
         if (res.data.success) {
           const data = res.data.data;
 

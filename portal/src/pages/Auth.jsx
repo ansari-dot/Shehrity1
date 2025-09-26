@@ -19,7 +19,7 @@ export default function Auth({ onLogin }) {
     try {
       let res;
       if (type === "login") {
-        res = await axios.post(`${path}/api/user/login`, form, {
+        res = await axios.post(`${path}/user/login`, form, {
           withCredentials: true,
         });
          const userId =  res.data.userId;
@@ -37,10 +37,10 @@ export default function Auth({ onLogin }) {
         toast.success("Welcome back! You are now logged in.");
         onLogin(); // Call onLogin prop after successful login
       } else if (type === "register") {
-        res = await axios.post(`${path}/api/user/register`, form);
+        res = await axios.post(`${path}/user/register`, form);
         toast.success(res.data?.message || "Registration successful. You can now login.");
       } else if (type === "forgot") {
-        res = await axios.post(`${path}/api/user/forgot-password`, {
+        res = await axios.post(`${path}/user/forgot-password`, {
           email: form.email,
         });
         toast.success(res.data?.message || "Password reset email sent! Check your inbox.");
@@ -58,7 +58,7 @@ export default function Auth({ onLogin }) {
           toast.error("Password must be at least 6 characters long");
           return;
         }
-        res = await axios.post(`${path}/api/user/reset-password/${resetToken}`, {
+        res = await axios.post(`${path}/user/reset-password/${resetToken}`, {
           password: form.password,
         });
         toast.success(res.data?.message || "Password reset successful. Please login.");

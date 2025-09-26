@@ -21,7 +21,7 @@ export default function SecurityQuiz() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const res = await axios.get(`${path}/api/quiz/get`);
+        const res = await axios.get(`${path}/quiz/get`);
         console.log("Quiz data:", res.data);
 
         if (res.data && res.data.length > 0) {
@@ -78,18 +78,21 @@ export default function SecurityQuiz() {
     try {
       const userId = localStorage.getItem("userId");
       console.log(userId);
-     
 
-      const res = await axios.post(`${path}/api/result/add`, {
-        userId,
-        obtainNumber: sc,
-        totalNumber: questions.length,
-      },{
-        headers: {
-          "Content-Type": "application/json",
+      const res = await axios.post(
+        `${path}/result/add`,
+        {
+          userId,
+          obtainNumber: sc,
+          totalNumber: questions.length,
         },
-        withCredentials: true,
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
       console.log("Result saved:", res.data);
     } catch (err) {
@@ -99,7 +102,7 @@ export default function SecurityQuiz() {
 
   const handleApplyCertificate = async () => {
     try {
-           const userId = localStorage.getItem("userId");
+      const userId = localStorage.getItem("userId");
       console.log(userId);
       if (!userId) {
         console.warn("No userId found in localStorage!");
@@ -107,7 +110,7 @@ export default function SecurityQuiz() {
         return;
       }
       const res = await axios.post(
-        `${path}/api/certificate/apply`,
+        `${path}/certificate/apply`,
         { userId },
         {
           withCredentials: true,

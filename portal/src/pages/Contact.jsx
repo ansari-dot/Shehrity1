@@ -47,7 +47,7 @@ export default function Contact() {
 
     try {
       const res = await axios.post(
-        `${path}/api/add/feedback`,
+        `${path}/add/feedback`,
         { ...formData, date: today },
         { headers: { "Content-Type": "application/json" } }
       );
