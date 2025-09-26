@@ -4,10 +4,11 @@ const API_BASE_URL = `${import.meta.env.VITE_API_URL}`
 // Helper function to get auth token from cookies
 const getAuthToken = () => {
     // First try to get from cookies
-    const cookieToken = document.cookie
+    const cookieRow = document.cookie
         .split('; ')
-        .find(row => row.startsWith('token=')) ?
-        .split('=')[1];
+        .find(row => row.startsWith('token='));
+
+    const cookieToken = cookieRow ? cookieRow.split('=')[1] : null;
 
     // If not in cookies, try localStorage as fallback
     const localToken = localStorage.getItem('token');
@@ -70,7 +71,7 @@ export const careerAPI = {
             method: 'POST',
             headers: {
                 ...(token && { 'Authorization': `Bearer ${token}` }),
-                // Don't set Content-Type for FormData - browser will set it automatically with boundary
+                // Don't set Content-Type for FormData
             },
             credentials: 'include',
             body: formData, // FormData for file upload
