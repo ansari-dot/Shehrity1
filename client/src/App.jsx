@@ -1,31 +1,26 @@
-
-
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import React, { useState } from "react";
-import DigitalServices from "./Components/Sections/DigitalServicesComponent";
-import DigitalHeroSection from "./Components/DigitalHeroSection";
-import NavBar from "./Components/NavBar";
-import NewsTicker from "./Components/NewsUpdate/NewsTicker";
-import HeroSection from "./Components/PhysicalSectionHeroSection";
-import WhyChooseUs from "./Components/WhyChooseUs";
-import PhysicalService from "./Components/Sections/PhysicalServiceComponent";
-import TestCard from "./Components/TestCard";
-import Footer from "./Components/Footer";
-import AboutHeader from "./Components/AboutUs/AboutHeader";
-import ServiceSlider from "./Components/Services/ServiceSlider";
-import PhyscialSlider from "./Components/PhysicalSecurity/PhyscialSlider";
-import DigitalSlider from "./Components/DigitalSecurity/DigitalSlider";
-import ContactForm from "./Components/ContactPage/ContactForm";
-import CareerPage from "./Components/Career/CareerPage";
-import SecuritySwitchButton from "./Components/SecuritySwitchButton/SwitchButton";
-import TransitionPage from "./Components/Transition/TransitionVedios"; 
-import AboutSlider from "./Components/AboutUs/AboutSlider";
-import Preloader from "./Components/Preloader/Preloader"
+import React, { useState, Suspense, lazy } from "react";
 
-
-
-
-
+// Lazy imports for heavy components
+const DigitalServices = lazy(() => import("./Components/Sections/DigitalServicesComponent"));
+const DigitalHeroSection = lazy(() => import("./Components/DigitalHeroSection"));
+const NavBar = lazy(() => import("./Components/NavBar"));
+const NewsTicker = lazy(() => import("./Components/NewsUpdate/NewsTicker"));
+const HeroSection = lazy(() => import("./Components/PhysicalSectionHeroSection"));
+const WhyChooseUs = lazy(() => import("./Components/WhyChooseUs"));
+const PhysicalService = lazy(() => import("./Components/Sections/PhysicalServiceComponent"));
+const TestCard = lazy(() => import("./Components/TestCard"));
+const Footer = lazy(() => import("./Components/Footer"));
+const AboutHeader = lazy(() => import("./Components/AboutUs/AboutHeader"));
+const ServiceSlider = lazy(() => import("./Components/Services/ServiceSlider"));
+const PhyscialSlider = lazy(() => import("./Components/PhysicalSecurity/PhyscialSlider"));
+const DigitalSlider = lazy(() => import("./Components/DigitalSecurity/DigitalSlider"));
+const ContactForm = lazy(() => import("./Components/ContactPage/ContactForm"));
+const CareerPage = lazy(() => import("./Components/Career/CareerPage"));
+const SecuritySwitchButton = lazy(() => import("./Components/SecuritySwitchButton/SwitchButton"));
+const TransitionPage = lazy(() => import("./Components/Transition/TransitionVedios"));
+const AboutSlider = lazy(() => import("./Components/AboutUs/AboutSlider"));
+const Preloader = lazy(() => import("./Components/Preloader/Preloader"));
 
 // ✅ Component to render ticker
 function TickerSwitcher({ showVideo, isDigitalSecurityActive }) {
@@ -38,142 +33,150 @@ function TickerSwitcher({ showVideo, isDigitalSecurityActive }) {
 }
 
 function App() {
- const [isLoading, setIsLoading] = useState(true);
-
-
+  const [isLoading, setIsLoading] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
   const [isDigitalSecurityActive, setIsDigitalSecurityActive] = useState(false);
 
   const location = useLocation();
   const isOnTransitionPage = location.pathname === "/transition";
 
-
-   if (isLoading) {
-    return <Preloader onFinish={() => setIsLoading(false)} />;
+  if (isLoading) {
+    return (
+      <Suspense fallback={<div>Loading Preloader...</div>}>
+        <Preloader onFinish={() => setIsLoading(false)} />
+      </Suspense>
+    );
   }
 
   return (
-    <>
-     <TickerSwitcher
+    <Suspense fallback={<div>Loading...</div>}>
+      <>
+        <TickerSwitcher
+          showVideo={showVideo}
+          isDigitalSecurityActive={isDigitalSecurityActive}
+        />
+
+        {/* ✅ Hide NavBar & Ticker ONLY on Transition Page */}
+        {!isOnTransitionPage && (
+          <NavBar
             showVideo={showVideo}
+            setShowVideo={setShowVideo}
             isDigitalSecurityActive={isDigitalSecurityActive}
+            setIsDigitalSecurityActive={setIsDigitalSecurityActive}
           />
-      {/* ✅ Hide NavBar & Ticker ONLY on Transition Page */}
-      {!isOnTransitionPage && (
-        <>
-         
-         <NavBar
-  showVideo={showVideo}
-  setShowVideo={setShowVideo}
-  isDigitalSecurityActive={isDigitalSecurityActive}
-  setIsDigitalSecurityActive={setIsDigitalSecurityActive} // 🔹 add this
-/>
+        )}
 
-        </>
-      )}
+        <Routes>
+          {/* ✅ Transition Page */}
+          <Route
+            path="/transition"
+            element={
+              <TransitionPage onFinish={() => setIsDigitalSecurityActive(true)} />
+            }
+          />
 
-      <Routes>
-        {/* ✅ Transition Page */}
-      <Route
-  path="/transition"
-  element={
-    <TransitionPage onFinish={() => setIsDigitalSecurityActive(true)} />
-  }
-/>
+          {/* ✅ Home Page */}
+          <Route
+            path="/"
+            element={
+              <>
+                {isDigitalSecurityActive ? (
+                  <DigitalHeroSection isDigitalSecurityActive={isDigitalSecurityActive} />
+                ) : (
+                  <HeroSection isDigitalSecurityActive={isDigitalSecurityActive} />
+                )}
 
+                {/* ✅ Switch Button */}
+                <div className="flex justify-center -mt-5 relative z-20">
+                  <SwitchWithNavigate
+                    isDigitalSecurityActive={isDigitalSecurityActive}
+                    setIsDigitalSecurityActive={setIsDigitalSecurityActive}
+                  />
+                </div>
 
-        {/* ✅ Home Page */}
-        <Route
-          path="/"
-          element={
-            <>
-              {isDigitalSecurityActive ? (
-                <DigitalHeroSection isDigitalSecurityActive={isDigitalSecurityActive} />
-              ) : (
-                <HeroSection isDigitalSecurityActive={isDigitalSecurityActive} />
-              )}
+                <WhyChooseUs isDigitalSecurityActive={isDigitalSecurityActive} />
 
-              {/* ✅ Switch Button */}
-              <div className="flex justify-center -mt-5 relative z-20">
-                <SwitchWithNavigate
-                  isDigitalSecurityActive={isDigitalSecurityActive}
-                  setIsDigitalSecurityActive={setIsDigitalSecurityActive}
-                />
+                {isDigitalSecurityActive ? (
+                  <DigitalServices isDigitalSecurityActive={isDigitalSecurityActive} />
+                ) : (
+                  <PhysicalService isDigitalSecurityActive={isDigitalSecurityActive} />
+                )}
+
+                <TestCard isDigitalSecurityActive={isDigitalSecurityActive} />
+                <Footer />
+              </>
+            }
+          />
+
+          {/* ✅ About Page */}
+          <Route
+            path="/about"
+            element={
+              <div className="pt-24">
+                <AboutSlider isDigitalSecurityActive={isDigitalSecurityActive} />
+                <AboutHeader isDigitalSecurityActive={isDigitalSecurityActive} />
+                <Footer />
               </div>
+            }
+          />
 
-              <WhyChooseUs isDigitalSecurityActive={isDigitalSecurityActive} />
+          {/* ✅ Services Page */}
+          <Route
+            path="/services"
+            element={
+              <div className="container mx-auto overflow-hidden flex justify-center pt-24">
+                <ServiceSlider />
+                <Footer />
+              </div>
+            }
+          />
 
-              {isDigitalSecurityActive ? (
-                <DigitalServices isDigitalSecurityActive={isDigitalSecurityActive} />
-              ) : (
-                <PhysicalService isDigitalSecurityActive={isDigitalSecurityActive} />
-              )}
+          {/* ✅ Physical Security */}
+          <Route
+            path="/physical-security"
+            element={
+              <div className="pt-24">
+                <PhyscialSlider isDigitalSecurityActive={isDigitalSecurityActive} />
+                <Footer />
+              </div>
+            }
+          />
 
-              <TestCard isDigitalSecurityActive={isDigitalSecurityActive} />
-              <Footer />
-            </>
-          }
-        />
+          {/* ✅ Digital Security */}
+          <Route
+            path="/digital-security"
+            element={
+              <div className="pt-24">
+                <DigitalSlider isDigitalSecurityActive={isDigitalSecurityActive} />
+                <Footer />
+              </div>
+            }
+          />
 
-        {/* ✅ About Page */}
-        <Route
-          path="/about"
-          element={
-            <div className="pt-24">
-              <AboutSlider isDigitalSecurityActive={isDigitalSecurityActive} />
-              <AboutHeader isDigitalSecurityActive={isDigitalSecurityActive} />
-              <Footer />
-            </div>
-          }
-        />
+          {/* ✅ Contact Page */}
+          <Route
+            path="/contact"
+            element={
+              <div className="pt-24">
+                <ContactForm isDigitalSecurityActive={isDigitalSecurityActive} />
+                <Footer />
+              </div>
+            }
+          />
 
-        <Route
-          path="/services"
-          element={
-            <div className="container mx-auto overflow-hidden flex justify-center pt-24">
-              <ServiceSlider />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/physical-security"
-          element={
-            <div className="pt-24">
-              <PhyscialSlider isDigitalSecurityActive={isDigitalSecurityActive} />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/digital-security"
-          element={
-            <div className="pt-24">
-              <DigitalSlider isDigitalSecurityActive={isDigitalSecurityActive} />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <div className="pt-24">
-              <ContactForm isDigitalSecurityActive={isDigitalSecurityActive} />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/career"
-          element={
-            <div className="pt-24">
-              <CareerPage isDigitalSecurityActive={isDigitalSecurityActive} />
-              <Footer />
-            </div>
-          }
-        />
-      </Routes>
-    </>
+          {/* ✅ Career Page */}
+          <Route
+            path="/career"
+            element={
+              <div className="pt-24">
+                <CareerPage isDigitalSecurityActive={isDigitalSecurityActive} />
+                <Footer />
+              </div>
+            }
+          />
+        </Routes>
+      </>
+    </Suspense>
   );
 }
 

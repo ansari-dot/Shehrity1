@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-        origin: [process.env.PORTAL_PORT, process.env.ADMIN_PORT, process.env.CLIENT_PORT],
+        origin: [process.env.PORTAL_PORT, process.env.ADMIN_PORT, process.env.CLIENT_PORT, 'https://admin.shehrity.com'],
 
         credentials: true,
     })

@@ -1,23 +1,25 @@
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import "./App.css";
+// import "./App.css";
 
 import Sidebar from "./components/SideBar";
-import Dashboard from "./pages/Dashboard.jsx";
-import Quiz from "./pages/Quiz.jsx";
-import Certificate from "./pages/Certificate.jsx";
-import Career from "./pages/Career";
-import Contact from "./pages/Contact.jsx";
-import ManageProfile from "./pages/ManageProfile";
-import Auth from "./pages/Auth.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-import { useState, useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaBars } from "react-icons/fa";
 import logo from "./assets/logo.png";
+
+// Lazy imports for pages
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+const Quiz = lazy(() => import("./pages/Quiz.jsx"));
+const Certificate = lazy(() => import("./pages/Certificate.jsx"));
+const Career = lazy(() => import("./pages/Career.jsx"));
+const Contact = lazy(() => import("./pages/Contact.jsx"));
+const ManageProfile = lazy(() => import("./pages/ManageProfile.jsx"));
+const Auth = lazy(() => import("./pages/Auth.jsx"));
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -49,12 +51,10 @@ function App() {
     navigate("/auth");
   };
 
-  // Close sidebar whenever the route changes (useful on mobile after clicking a nav item)
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location.pathname]);
 
-  // Prevent background scroll when sidebar is open (mobile UX)
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -82,7 +82,6 @@ function App() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}>
-          {/* Mobile Top Bar / Hamburger Button */}
           {isAuthenticated && (
             <div
               className="d-lg-none"
@@ -98,7 +97,6 @@ function App() {
                 justifyContent: "space-between",
                 gap: 8,
               }}>
-              {/* Left: Company logo */}
               <button
                 onClick={() => navigate("/dashboard")}
                 aria-label="Go to dashboard"
@@ -127,7 +125,6 @@ function App() {
                 </span>
               </button>
 
-              {/* Right: Hamburger */}
               <button
                 aria-label="Open menu"
                 onClick={() => setIsSidebarOpen(true)}
@@ -149,28 +146,30 @@ function App() {
             </div>
           )}
 
-          <Routes>
-            <Route path="/auth" element={<Auth onLogin={handleLogin} />} />
-            <Route
-              path="/*"
-              element={
-                <ProtectedRoute isAuthenticated={isAuthenticated}>
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/quiz" element={<Quiz />} />
-                    <Route path="/certificate" element={<Certificate />} />
-                    <Route path="/career" element={<Career />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/profile" element={<ManageProfile />} />
-                  </Routes>
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+          {/* Suspense for lazy loaded routes */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/auth" element={<Auth onLogin={handleLogin} />} />
+              <Route
+                path="/*"
+                element={
+                  <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/quiz" element={<Quiz />} />
+                      <Route path="/certificate" element={<Certificate />} />
+                      <Route path="/career" element={<Career />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/profile" element={<ManageProfile />} />
+                    </Routes>
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </Suspense>
         </motion.main>
 
-        {/* Overlay when sidebar is open on mobile */}
         {isAuthenticated && isSidebarOpen && (
           <div
             className="sidebar-overlay d-lg-none"
@@ -179,7 +178,6 @@ function App() {
         )}
       </div>
 
-      {/* Global toasts */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
