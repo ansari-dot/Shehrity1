@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
 import axios from "axios";
 import img1 from "../assets/alaboutbg.jpg";
-
 const cardVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: {
@@ -90,15 +89,13 @@ const PhysicalServices = ({ isDigitalSecurityActive }) => {
 
   // ✅ Mode-based colors
   const primaryColor = isDigitalSecurityActive ? "#702829" : "#15487d";
-
+  const path = import.meta.env.VITE_API_URL;
   // Fetch physical services from backend
   useEffect(() => {
     const fetchPhysicalServices = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/service/physical`
-        );
+        const response = await axios.get(`${path}/service/physical`);
         // Log the raw response data
         console.log("Physical Services API Response:", response.data);
 
