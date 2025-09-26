@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PlusCircle, X, Trash2 } from "lucide-react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../styles/AdminServices.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../styles/AdminServices.css";
 
 export default function AdminServices() {
   const [services, setServices] = useState([]);
@@ -12,7 +12,7 @@ export default function AdminServices() {
     name: "",
     description: "",
     serviceType: "physical", // Changed to match backend enum
-    highlights: ["", "", ""] // Default to 3 empty highlights
+    highlights: ["", "", ""], // Default to 3 empty highlights
   });
   const [file, setFile] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,10 +22,13 @@ export default function AdminServices() {
 
   const fetchServices = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/service/get`);
+      const { data } = await axios.get(`${API_URL}/service/get`);
       setServices(data);
     } catch (err) {
-      console.error("Error fetching services:", err.response?.data || err.message);
+      console.error(
+        "Error fetching services:",
+        err.response?.data || err.message
+      );
     }
   };
 
@@ -46,16 +49,18 @@ export default function AdminServices() {
   const addHighlightField = () => {
     setNewService({
       ...newService,
-      highlights: [...newService.highlights, ""]
+      highlights: [...newService.highlights, ""],
     });
   };
 
   const removeHighlightField = (index) => {
     if (newService.highlights.length <= 1) return;
-    const updatedHighlights = newService.highlights.filter((_, i) => i !== index);
+    const updatedHighlights = newService.highlights.filter(
+      (_, i) => i !== index
+    );
     setNewService({
       ...newService,
-      highlights: updatedHighlights
+      highlights: updatedHighlights,
     });
   };
 
@@ -64,17 +69,21 @@ export default function AdminServices() {
   };
 
   const handleDelete = async (serviceId) => {
-    if (!window.confirm('Are you sure you want to delete this service? This action cannot be undone.')) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this service? This action cannot be undone."
+      )
+    ) {
       return;
     }
 
     try {
       setIsDeleting(true);
-      await axios.delete(`${API_URL}/api/service/${serviceId}`, {
+      await axios.delete(`${API_URL}/service/${serviceId}`, {
         withCredentials: true,
       });
       // Show success message
-      toast.success('Service deleted successfully!', {
+      toast.success("Service deleted successfully!", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -85,8 +94,11 @@ export default function AdminServices() {
       // Refresh the services list
       fetchServices();
     } catch (err) {
-      console.error('Error deleting service:', err.response?.data || err.message);
-      toast.error(err.response?.data?.message || 'Error deleting service', {
+      console.error(
+        "Error deleting service:",
+        err.response?.data || err.message
+      );
+      toast.error(err.response?.data?.message || "Error deleting service", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -110,21 +122,23 @@ export default function AdminServices() {
     formData.append("name", newService.name);
     formData.append("description", newService.description);
     formData.append("type", newService.serviceType); // Changed from serviceType to type
-    
+
     // Handle highlights - filter out empty strings and send as array
-    const validHighlights = newService.highlights.filter(h => h && h.trim() !== '');
+    const validHighlights = newService.highlights.filter(
+      (h) => h && h.trim() !== ""
+    );
     formData.append("highlights", JSON.stringify(validHighlights));
-    
+
     formData.append("image", file);
 
     try {
-      await axios.post(`${API_URL}/api/service/add`, formData, {
+      await axios.post(`${API_URL}/service/add`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-      
+
       // Show success message
-      toast.success('Service added successfully!', {
+      toast.success("Service added successfully!", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -132,15 +146,15 @@ export default function AdminServices() {
         pauseOnHover: true,
         draggable: true,
       });
-      
+
       // Reset form and refresh list
       fetchServices();
       setShowModal(false);
-      setNewService({ 
-        name: "", 
-        description: "", 
+      setNewService({
+        name: "",
+        description: "",
         serviceType: "physical",
-        highlights: ["", "", ""]
+        highlights: ["", "", ""],
       });
       setFile(null);
     } catch (err) {
@@ -161,8 +175,10 @@ export default function AdminServices() {
       <ToastContainer />
       <header className="services-header">
         <h1>Our Services</h1>
-        <button className="btn-primary-theme" onClick={() => setShowModal(true)}>
-          <PlusCircle size={18} style={{ marginRight: '0.5rem' }} />
+        <button
+          className="btn-primary-theme"
+          onClick={() => setShowModal(true)}>
+          <PlusCircle size={18} style={{ marginRight: "0.5rem" }} />
           Add Service
         </button>
       </header>
@@ -170,22 +186,29 @@ export default function AdminServices() {
       <div className="services-grid">
         {services.map((service) => (
           <div key={service._id} className="service-card">
-            <img src={`${API_URL}${service.image}`} alt={service.name} className="service-card-image" />
+            <img
+              src={`${API_URL}${service.image}`}
+              alt={service.name}
+              className="service-card-image"
+            />
             <div className="service-card-content">
               <span className="service-type">{service.type}</span>
               <div className="service-card-header">
                 <h3>{service.name}</h3>
-                <button 
-                  className="btn-icon" 
+                <button
+                  className="btn-icon"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (window.confirm('Are you sure you want to delete this service?')) {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this service?"
+                      )
+                    ) {
                       handleDelete(service._id);
                     }
                   }}
                   disabled={isDeleting}
-                  title="Delete service"
-                >
+                  title="Delete service">
                   <Trash2 size={18} className="icon-danger" />
                 </button>
               </div>
@@ -200,20 +223,46 @@ export default function AdminServices() {
           <div className="modal-content">
             <header className="modal-header">
               <h2>Add New Service</h2>
-              <button className="btn-action" onClick={() => setShowModal(false)}><X size={24} /></button>
+              <button
+                className="btn-action"
+                onClick={() => setShowModal(false)}>
+                <X size={24} />
+              </button>
             </header>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Service Name</label>
-                <input type="text" id="name" name="name" value={newService.name} onChange={handleChange} className="input-theme" required />
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={newService.name}
+                  onChange={handleChange}
+                  className="input-theme"
+                  required
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="description">Description</label>
-                <input type="text" id="description" name="description" value={newService.description} onChange={handleChange} className="input-theme" required />
+                <input
+                  type="text"
+                  id="description"
+                  name="description"
+                  value={newService.description}
+                  onChange={handleChange}
+                  className="input-theme"
+                  required
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="serviceType">Service Type</label>
-                <select id="serviceType" name="serviceType" value={newService.serviceType} onChange={handleChange} className="input-theme" required>
+                <select
+                  id="serviceType"
+                  name="serviceType"
+                  value={newService.serviceType}
+                  onChange={handleChange}
+                  className="input-theme"
+                  required>
                   <option value="physical">Physical Service</option>
                   <option value="digital">Digital Service</option>
                   <option value="other">Other Service</option>
@@ -221,10 +270,23 @@ export default function AdminServices() {
               </div>
               <div className="form-group">
                 <label htmlFor="image">Image</label>
-                <input type="file" id="image" onChange={handleFileChange} className="input-theme" accept="image/*" required />
-                {file && <img src={URL.createObjectURL(file)} alt="preview" className="image-preview" />}
+                <input
+                  type="file"
+                  id="image"
+                  onChange={handleFileChange}
+                  className="input-theme"
+                  accept="image/*"
+                  required
+                />
+                {file && (
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="preview"
+                    className="image-preview"
+                  />
+                )}
               </div>
-              
+
               <div className="form-group">
                 <label>Highlights</label>
                 {newService.highlights.map((highlight, index) => (
@@ -232,35 +294,42 @@ export default function AdminServices() {
                     <input
                       type="text"
                       value={highlight}
-                      onChange={(e) => handleHighlightChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleHighlightChange(index, e.target.value)
+                      }
                       className="input-theme"
                       placeholder={`Highlight ${index + 1}`}
                     />
                     {newService.highlights.length > 1 && (
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => removeHighlightField(index)}
                         className="btn-icon"
-                        style={{ marginLeft: '8px' }}
-                        title="Remove highlight"
-                      >
+                        style={{ marginLeft: "8px" }}
+                        title="Remove highlight">
                         <X size={16} />
                       </button>
                     )}
                   </div>
                 ))}
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={addHighlightField}
                   className="btn-text"
-                  style={{ marginTop: '8px' }}
-                >
+                  style={{ marginTop: "8px" }}>
                   + Add another highlight
                 </button>
               </div>
               <div className="modal-actions">
-                <button type="button" className="btn-secondary-theme" onClick={() => setShowModal(false)}>Cancel</button>
-                <button type="submit" className="btn-primary-theme">Save Service</button>
+                <button
+                  type="button"
+                  className="btn-secondary-theme"
+                  onClick={() => setShowModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary-theme">
+                  Save Service
+                </button>
               </div>
             </form>
           </div>

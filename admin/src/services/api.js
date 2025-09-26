@@ -1,5 +1,5 @@
 // API service for admin panel
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}`
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}`;
 
 // Helper function to get auth token
 const getAuthToken = () => {
@@ -7,10 +7,11 @@ const getAuthToken = () => {
     const localToken = localStorage.getItem('token');
 
     // Also check cookies as fallback
-    const cookieToken = document.cookie
+    const cookieTokenRow = document.cookie
         .split('; ')
-        .find(row => row.startsWith('token=')) ?
-        .split('=')[1];
+        .find(row => row.startsWith('token='));
+
+    const cookieToken = cookieTokenRow ? cookieTokenRow.split('=')[1] : null;
 
     return localToken || cookieToken;
 };
@@ -42,7 +43,9 @@ const makeRequest = async(url, options = {}) => {
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+            throw new Error(
+                errorData.message || `HTTP error! status: ${response.status}`
+            );
         }
 
         return await response.json();
@@ -58,27 +61,31 @@ export const adminCareerAPI = {
     getJobs: () => makeRequest('/career/get'),
 
     // Add new job
-    addJob: (jobData) => makeRequest('/career/add', {
-        method: 'POST',
-        body: JSON.stringify(jobData),
-    }),
+    addJob: (jobData) =>
+        makeRequest('/career/add', {
+            method: 'POST',
+            body: JSON.stringify(jobData),
+        }),
 
     // Delete job
-    deleteJob: (jobId) => makeRequest(`/career/delete/${jobId}`, {
-        method: 'DELETE',
-    }),
+    deleteJob: (jobId) =>
+        makeRequest(`/career/delete/${jobId}`, {
+            method: 'DELETE',
+        }),
 
     // Get all applications (admin only)
     getAllApplications: () => makeRequest('/application/all'),
 
     // Get applications for specific job
-    getJobApplications: (jobId) => makeRequest(`/application/job/${jobId}`),
+    getJobApplications: (jobId) =>
+        makeRequest(`/application/job/${jobId}`),
 
     // Update application status and send email
-    updateApplicationStatus: (applicationId, status) => makeRequest(`/application/status/${applicationId}`, {
-        method: 'PUT',
-        body: JSON.stringify({ status }),
-    }),
+    updateApplicationStatus: (applicationId, status) =>
+        makeRequest(`/application/status/${applicationId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ status }),
+        }),
 };
 
 // User API functions for admin
@@ -86,7 +93,9 @@ export const adminUserAPI = {
     // Get all users
     getAllUsers: () => makeRequest('/user/all'),
 
-    // Get user profile
+    // Placeholder for user profile (to add later)
+    getUserProfile: (userId) =>
+        makeRequest(`/user/${userId}`),
 };
 
 // Quiz API functions for admin
@@ -95,7 +104,8 @@ export const adminQuizAPI = {
     getAllResults: () => makeRequest('/admin/quiz/results'),
 
     // Get results for specific user
-    getUserResults: (userId) => makeRequest(`/admin/quiz/results/${userId}`),
+    getUserResults: (userId) =>
+        makeRequest(`/admin/quiz/results/${userId}`),
 };
 
 // Services API functions for admin
@@ -104,9 +114,10 @@ export const adminServicesAPI = {
     getServices: () => makeRequest('/service/get'),
 
     // Delete service
-    deleteService: (serviceId) => makeRequest(`/service/${serviceId}`, {
-        method: 'DELETE'
-    })
+    deleteService: (serviceId) =>
+        makeRequest(`/service/${serviceId}`, {
+            method: 'DELETE',
+        }),
 };
 
 export default {
