@@ -18,7 +18,7 @@ export default function AdminTestimonials() {
   const fetchTestimonials = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`${API_URL}/api/testimonial/get`);
+      const { data } = await axios.get(`${API_URL}/testimonial/get`);
       setTestimonials(data);
     } catch (err) {
       console.error("Error fetching testimonials:", err);
@@ -47,7 +47,7 @@ export default function AdminTestimonials() {
       fd.append("message", formData.message);
       if (formData.image) fd.append("image", formData.image);
 
-      await axios.post(`${API_URL}/api/testimonial/add`, fd, {
+      await axios.post(`${API_URL}/testimonial/add`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -64,7 +64,7 @@ export default function AdminTestimonials() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      await axios.delete(`${API_URL}/api/testimonial/delete/${id}`, { withCredentials: true });
+      await axios.delete(`${API_URL}/testimonial/delete/${id}`, { withCredentials: true });
       fetchTestimonials();
     } catch (err) {
       console.error("Error deleting testimonial:", err.response?.data || err.message);

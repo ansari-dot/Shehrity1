@@ -17,7 +17,7 @@ export default function AdminQuiz() {
 
   const fetchQuizzes = async () => {
     try {
-      const res = await axios.get(`${path}/api/quiz/get`, { withCredentials: true });
+      const res = await axios.get(`${path}/quiz/get`, { withCredentials: true });
       setQuizzes(res.data.data || res.data || []);
     } catch (err) {
       console.error(err);
@@ -77,7 +77,7 @@ export default function AdminQuiz() {
     }
 
     try {
-      await axios.post(`${path}/api/quiz/add`, form, { withCredentials: true });
+      await axios.post(`${path}/quiz/add`, form, { withCredentials: true });
       fetchQuizzes();
       setShowModal(false);
       setForm({ title: "", duration: 20, questions: [{ question: "", options: ["", ""], answer: "" }] });
@@ -90,7 +90,7 @@ export default function AdminQuiz() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       try {
-        await axios.delete(`${path}/api/quiz/delete/${id}`);
+        await axios.delete(`${path}/quiz/delete/${id}`);
         fetchQuizzes();
       } catch (err) {
         console.error(err);

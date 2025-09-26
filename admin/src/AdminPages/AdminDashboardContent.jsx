@@ -66,7 +66,7 @@ const AdminDashboardContent = () => {
     const fetchStats = async () => {
       setIsLoading(true);
       try {
-        const res = await axios.get(`${path}/api/dashboard/admin/stats`, {
+        const res = await axios.get(`${path}/dashboard/admin/stats`, {
           withCredentials: true,
         });
         const apiData = res.data.data; 
@@ -81,7 +81,7 @@ const AdminDashboardContent = () => {
         });
 
         // Fetch recent activities
-        const activitiesRes = await axios.get(`${path}/api/dashboard/admin/activities`, {
+        const activitiesRes = await axios.get(`${path}/dashboard/admin/activities`, {
           withCredentials: true,
         });
         setRecentActivities(activitiesRes.data.activities || []);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, User, Shield, Lock, Eye, EyeOff } from 'lucide-react';
 import '../styles/AdminProfile.css';
-
+  const path = import.meta.env.VITE_API_URL;
 const AdminProfile = () => {
   const [admin, setAdmin] = useState({
     username: '',
@@ -35,7 +35,7 @@ const AdminProfile = () => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/user/profile', {
+      const response = await fetch(`${path}/user/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ const AdminProfile = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/user/profile', {
+      const response = await fetch(`${path}/user/profile`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -123,7 +123,7 @@ const AdminProfile = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/user/change-password', {
+      const response = await fetch(`${path}/user/change-password`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

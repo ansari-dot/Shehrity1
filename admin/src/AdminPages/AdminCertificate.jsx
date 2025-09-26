@@ -14,7 +14,7 @@ export default function AdminCertificate() {
   const fetchResults = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${path}/api/result/get`, { withCredentials: true });
+      const res = await axios.get(`${path}/result/get`, { withCredentials: true });
       if (res.data.success) {
         setResults(res.data.data);
       }
@@ -38,7 +38,7 @@ export default function AdminCertificate() {
       formData.append("file", file);
       formData.append("userId", selectedUser._id); 
 
-      const res = await axios.post(`${path}/api/certificate/upload`, formData, {
+      const res = await axios.post(`${path}/certificate/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

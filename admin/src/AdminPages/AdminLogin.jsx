@@ -26,7 +26,7 @@ const AdminLogin = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/user/login`,
+        `${import.meta.env.VITE_API_URL}/user/login`,
         loginData,
         { headers: { "Content-Type": "application/json" } }
       );

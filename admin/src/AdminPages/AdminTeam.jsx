@@ -35,7 +35,7 @@ export default function AdminTeam() {
   const fetchMembers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_URL}/api/team/get`, {
+      const res = await axios.get(`${API_URL}/team/get`, {
         withCredentials: true
       });
       console.log('Fetched members:', res.data);
@@ -80,7 +80,7 @@ export default function AdminTeam() {
     formDataToSend.append("image", file);
 
     try {
-      await axios.post(`${API_URL}/api/team/add`, formDataToSend, {
+      await axios.post(`${API_URL}/team/add`, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
@@ -98,7 +98,7 @@ export default function AdminTeam() {
     if (!window.confirm("Are you sure you want to delete this member?")) return;
     
     try {
-      const response = await axios.delete(`${API_URL}/api/team/delete/${id}`, { 
+      const response = await axios.delete(`${API_URL}/team/delete/${id}`, { 
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json'
