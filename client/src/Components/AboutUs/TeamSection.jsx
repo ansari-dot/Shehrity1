@@ -24,38 +24,40 @@ export default function TeamSection({ isDigitalSecurityActive }) {
     try {
       // First check if we're online
       if (!navigator.onLine) {
-        throw new Error('No internet connection');
+        throw new Error("No internet connection");
       }
-      
-      const res = await axios.get(`${API_URL}/api/team/get`, {
+
+      const res = await axios.get(`${API_URL}/team/get`, {
         timeout: 10000, // 10 second timeout
         headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       });
-      
+
       if (res.data?.success && Array.isArray(res.data.members)) {
         // Map the API response to match our component's expected format
         const formattedMembers = res.data.members.map((member, index) => ({
           id: member._id || `member-${index}`,
-          name: member.name?.trim() || 'Team Member',
-          role: member.role?.trim() || 'Team Member',
-          image: member.image ? 
-            (member.image.startsWith('http') ? member.image : `${API_URL}${member.image}`) : 
-            '/images/placeholder.png',
+          name: member.name?.trim() || "Team Member",
+          role: member.role?.trim() || "Team Member",
+          image: member.image
+            ? member.image.startsWith("http")
+              ? member.image
+              : `${API_URL}${member.image}`
+            : "/images/placeholder.png",
           social: {
-            linkedin: member.socialLinks?.linkedin || '#',
-            telegram: member.socialLinks?.telegram || '#',
-            facebook: member.socialLinks?.facebook || '#'
-          }
+            linkedin: member.socialLinks?.linkedin || "#",
+            telegram: member.socialLinks?.telegram || "#",
+            facebook: member.socialLinks?.facebook || "#",
+          },
         }));
-        
+
         setTeamMembers(formattedMembers);
       } else {
-        console.error('Invalid API response format:', res.data);
-        throw new Error('Invalid data received from server');
+        console.error("Invalid API response format:", res.data);
+        throw new Error("Invalid data received from server");
       }
     } catch (err) {
       console.error("Error fetching team members:", err);
@@ -116,84 +118,87 @@ export default function TeamSection({ isDigitalSecurityActive }) {
             </div>
           ) : !teamMembers || teamMembers.length === 0 ? (
             <div className="col-span-3 text-center py-10">
-              <p className="text-gray-600">No team members available at the moment</p>
-              <button 
+              <p className="text-gray-600">
+                No team members available at the moment
+              </p>
+              <button
                 onClick={handleTeam}
-                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-              >
+                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
                 Retry
               </button>
             </div>
           ) : (
             teamMembers.map((member, index) => (
-            <motion.div
-              key={member.id}
-              className="relative group flex justify-center"
-              onMouseEnter={() => setHoveredMember(member.id)}
-              onMouseLeave={() => setHoveredMember(null)}
-              variants={cardVariant}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ amount: 0.3 }}
-              transition={{ delay: index * 0.2 }}>
-              {/* Card */}
-              <div
-                className="flex flex-col w-full max-w-xs bg-white/95 backdrop-blur-sm shadow-lg rounded-lg overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:scale-105"
-                style={{
-                  borderColor:
-                    hoveredMember === member.id ? mainColor : "transparent",
-                  borderWidth: hoveredMember === member.id ? "2px" : "0px",
-                }}>
-                {/* Image & Overlay */}
-                <div className="relative">
-                  <div className="aspect-[4/5] overflow-hidden">
-                    <img
-                      src={member.image || "/images/placeholder.png"}
-                      alt={member.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                  </div>
+              <motion.div
+                key={member.id}
+                className="relative group flex justify-center"
+                onMouseEnter={() => setHoveredMember(member.id)}
+                onMouseLeave={() => setHoveredMember(null)}
+                variants={cardVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ amount: 0.3 }}
+                transition={{ delay: index * 0.2 }}>
+                {/* Card */}
+                <div
+                  className="flex flex-col w-full max-w-xs bg-white/95 backdrop-blur-sm shadow-lg rounded-lg overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:scale-105"
+                  style={{
+                    borderColor:
+                      hoveredMember === member.id ? mainColor : "transparent",
+                    borderWidth: hoveredMember === member.id ? "2px" : "0px",
+                  }}>
+                  {/* Image & Overlay */}
+                  <div className="relative">
+                    <div className="aspect-[4/5] overflow-hidden">
+                      <img
+                        src={member.image || "/images/placeholder.png"}
+                        alt={member.name}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                    </div>
 
-                  {/* Social Icons Overlay */}
-                  <div
-                    className={`absolute inset-0 flex items-center justify-center gap-3 transition-all duration-300 ${
-                      hoveredMember === member.id ? `opacity-100` : "opacity-0"
-                    }`}
-                    style={{
-                      backgroundColor:
+                    {/* Social Icons Overlay */}
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center gap-3 transition-all duration-300 ${
                         hoveredMember === member.id
-                          ? `${mainColor}CC`
-                          : "transparent",
-                    }}>
-                    <a
-                      href={member.social.linkedin}
-                      className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${socialColors.linkedin}`}>
-                      <FaLinkedin className="w-5 h-5 text-white" />
-                    </a>
-                    <a
-                      href={member.social.telegram}
-                      className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${socialColors.telegram}`}>
-                      <FaTelegramPlane className="w-5 h-5 text-white" />
-                    </a>
-                    <a
-                      href={member.social.facebook}
-                      className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${socialColors.facebook}`}>
-                      <FaFacebook className="w-5 h-5 text-white" />
-                    </a>
+                          ? `opacity-100`
+                          : "opacity-0"
+                      }`}
+                      style={{
+                        backgroundColor:
+                          hoveredMember === member.id
+                            ? `${mainColor}CC`
+                            : "transparent",
+                      }}>
+                      <a
+                        href={member.social.linkedin}
+                        className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${socialColors.linkedin}`}>
+                        <FaLinkedin className="w-5 h-5 text-white" />
+                      </a>
+                      <a
+                        href={member.social.telegram}
+                        className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${socialColors.telegram}`}>
+                        <FaTelegramPlane className="w-5 h-5 text-white" />
+                      </a>
+                      <a
+                        href={member.social.facebook}
+                        className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${socialColors.facebook}`}>
+                        <FaFacebook className="w-5 h-5 text-white" />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Name & Role */}
+                  <div className="p-4 text-center flex flex-col justify-center">
+                    <h3 className="!text-xl !font-bold mb-1">{member.name}</h3>
+                    <p
+                      className="text-xs font-medium"
+                      style={{ color: mainColor }}>
+                      {member.role}
+                    </p>
                   </div>
                 </div>
-
-                {/* Name & Role */}
-                <div className="p-4 text-center flex flex-col justify-center">
-                  <h3 className="!text-xl !font-bold mb-1">{member.name}</h3>
-                  <p
-                    className="text-xs font-medium"
-                    style={{ color: mainColor }}>
-                    {member.role}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
             ))
           )}
         </div>

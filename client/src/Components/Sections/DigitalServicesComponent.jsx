@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -11,7 +10,12 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./Styles.css";
-import { EffectCoverflow, Pagination, Autoplay, Navigation } from "swiper/modules";
+import {
+  EffectCoverflow,
+  Pagination,
+  Autoplay,
+  Navigation,
+} from "swiper/modules";
 import ourservice from "../assets/ourservices.jpg";
 
 export default function Service({ isDigitalSecurityActive }) {
@@ -22,33 +26,41 @@ export default function Service({ isDigitalSecurityActive }) {
   useEffect(() => {
     const fetchDigitalServices = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/service/digital/first-five`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/service/digital/first-five`
+        );
         if (response.data && Array.isArray(response.data)) {
           setServices(response.data);
         }
       } catch (err) {
-        console.error('Error fetching digital services:', err);
-        setError('Failed to load services. Please try again later.');
+        console.error("Error fetching digital services:", err);
+        setError("Failed to load services. Please try again later.");
         // Fallback to sample data if API fails
         setServices([
-          { 
+          {
             _id: 1,
-            image: "https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80", 
-            name: "Cybersecurity Solutions", 
-            description: "Comprehensive protection against digital threats and cyber attacks." 
+            image:
+              "https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            name: "Cybersecurity Solutions",
+            description:
+              "Comprehensive protection against digital threats and cyber attacks.",
           },
-          { 
+          {
             _id: 2,
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80", 
-            name: "Network Security", 
-            description: "Advanced protection for your digital infrastructure and data networks." 
+            image:
+              "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            name: "Network Security",
+            description:
+              "Advanced protection for your digital infrastructure and data networks.",
           },
-          { 
+          {
             _id: 3,
-            image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80", 
-            name: "Cloud Security", 
-            description: "Secure cloud solutions with enterprise-grade protection." 
-          }
+            image:
+              "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+            name: "Cloud Security",
+            description:
+              "Secure cloud solutions with enterprise-grade protection.",
+          },
         ]);
       } finally {
         setLoading(false);
@@ -66,8 +78,7 @@ export default function Service({ isDigitalSecurityActive }) {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-      }}
-    >
+      }}>
       {/* Overlay for better text readability */}
       <div className="absolute inset-0"></div>
 
@@ -79,21 +90,25 @@ export default function Service({ isDigitalSecurityActive }) {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+          transition={{ duration: 0.5 }}>
           <div className="flex justify-center align-center">
-            <span className={`${isDigitalSecurityActive ? "!text-[#702829]" : "!text-[#15487d]"} !font-bold px-2 py-1 rounded-full !text-xl md:!text-2xl flex gap-1`} style={{ fontFamily: "Arial, sans-serif" }}>
+            <span
+              className={`${
+                isDigitalSecurityActive ? "!text-[#702829]" : "!text-[#15487d]"
+              } !font-bold px-2 py-1 rounded-full !text-xl md:!text-2xl flex gap-1`}
+              style={{ fontFamily: "Arial, sans-serif" }}>
               Digital Services
             </span>
           </div>
           <motion.h2
-            className={`!text-xl sm:!text-2xl md:!text-4xl !font-bold leading-tight ${isDigitalSecurityActive ? "!text-black" : "text-[#15487d]"}`}
+            className={`!text-xl sm:!text-2xl md:!text-4xl !font-bold leading-tight ${
+              isDigitalSecurityActive ? "!text-black" : "text-[#15487d]"
+            }`}
             style={{ fontFamily: "Arial, sans-serif" }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
+            transition={{ duration: 0.4, delay: 0.1 }}>
             Advanced Protection for Your Digital World
           </motion.h2>
         </motion.div>
@@ -105,9 +120,7 @@ export default function Service({ isDigitalSecurityActive }) {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
             </div>
           ) : error ? (
-            <div className="text-center py-8 text-red-500">
-              {error}
-            </div>
+            <div className="text-center py-8 text-red-500">{error}</div>
           ) : services.length > 0 ? (
             <Swiper
               effect={"coverflow"}
@@ -137,25 +150,24 @@ export default function Service({ isDigitalSecurityActive }) {
                 1024: { slidesPerView: 2, spaceBetween: 25 },
               }}
               modules={[EffectCoverflow, Pagination, Autoplay, Navigation]}
-              className="mySwiper"
-            >
+              className="mySwiper">
               {services.map((service) => {
-                const imageUrl = service.image.startsWith('http') 
-                  ? service.image 
+                const imageUrl = service.image.startsWith("http")
+                  ? service.image
                   : `${import.meta.env.VITE_API_URL}${service.image}`;
-                
+
                 return (
                   <SwiperSlide
                     key={service._id}
-                    className="relative group rounded-lg overflow-hidden shadow-md"
-                  >
+                    className="relative group rounded-lg overflow-hidden shadow-md">
                     <img
                       src={imageUrl}
                       alt={service.name}
                       className="w-full h-40 sm:h-48 md:h-52 object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+                        e.target.src =
+                          "https://via.placeholder.com/400x300?text=Image+Not+Found";
                       }}
                     />
 
@@ -164,7 +176,9 @@ export default function Service({ isDigitalSecurityActive }) {
                       <h3 className="text-sm sm:text-base font-semibold">
                         {service.name}
                       </h3>
-                      <p className="text-xs sm:text-sm opacity-90">{service.description}</p>
+                      <p className="text-xs sm:text-sm opacity-90">
+                        {service.description}
+                      </p>
                     </div>
                   </SwiperSlide>
                 );
