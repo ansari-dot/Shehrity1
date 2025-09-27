@@ -25,10 +25,11 @@ const menuItems = [
 
 const Sidebar = ({ onLogout, isOpen = false, onClose = () => {} }) => {
   const navigate = useNavigate();
+  const path =  import.meta.env.VITE_API_URL
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/user/logout", {}, { withCredentials: true });
+      await axios.post(`${path}/user/logout`, {}, { withCredentials: true });
 
       // ✅ Remove user data from localStorage
       localStorage.removeItem("user");

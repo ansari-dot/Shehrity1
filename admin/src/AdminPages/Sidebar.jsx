@@ -11,7 +11,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        `${API_URL}/api/user/logout`,
+        `${API_URL}/user/logout`,
         {},
         {
           headers: { "Content-Type": "multipart/form-data" },
