@@ -152,12 +152,22 @@ export default function Service({ isDigitalSecurityActive }) {
               className="mySwiper"
             >
               {services.map((service) => {
-                const imageUrl = service.image.startsWith("http")
-                  ? service.image
-                  : `${import.meta.env.VITE_API_URL}${service.image.replace(
-                      "/api",
-                      ""
-                    )}`;
+                // Construct the correct image URL based on environment
+                let imageUrl;
+                if (service.image.startsWith("http")) {
+                  imageUrl = service.image;
+                } else {
+                  // For both development and production, use the same path structure
+                  // The server will handle the correct path with the static file middleware
+                  imageUrl = service.image.startsWith('/')
+                    ? service.image
+                    : `/${service.image}`;
+                  
+                  // If running in development, prepend the local server URL
+                  if (import.meta.env.DEV) {
+                    imageUrl = `http://localhost:5000${imageUrl}`;
+                  }
+                }
 
                 return (
                   <SwiperSlide
