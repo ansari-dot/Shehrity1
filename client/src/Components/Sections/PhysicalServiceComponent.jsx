@@ -10,12 +10,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./Styles.css";
-import {
-  EffectCoverflow,
-  Pagination,
-  Autoplay,
-  Navigation,
-} from "swiper/modules";
+import { EffectCoverflow, Pagination, Autoplay, Navigation } from "swiper/modules";
 import ourservice from "../assets/ourservices.jpg";
 
 export default function Service({ isDigitalSecurityActive }) {
@@ -35,7 +30,7 @@ export default function Service({ isDigitalSecurityActive }) {
       } catch (err) {
         console.error("Error fetching physical services:", err);
         setError("Failed to load services. Please try again later.");
-        // Fallback to sample data if API fails
+        // Fallback sample data
         setServices([
           {
             _id: 1,
@@ -77,24 +72,26 @@ export default function Service({ isDigitalSecurityActive }) {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-      }}>
+      }}
+    >
       {/* Overlay for better text readability */}
-      <div className="absolute inset-0"></div>
+      <div className="absolute inset-0 bg-black/20"></div>
 
       {/* Content container */}
       <div className="relative z-10">
-        {/* ✅ Heading */}
+        {/* Heading */}
         <motion.div
           className="text-center mb-6"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}>
-          <div className="flex justify-center align-center">
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex justify-center items-center">
             <span
-              className="!text-[#15487d] !font-bold  px-2 py-1 rounded-full !text-xl md:!text-2xl  flex gap-1 
-            "
-              style={{ fontFamily: "Arial, sans-serif" }}>
+              className="!text-[#15487d] !font-bold px-2 py-1 rounded-full !text-xl md:!text-2xl flex gap-1"
+              style={{ fontFamily: "Arial, sans-serif" }}
+            >
               Our Services
             </span>
           </div>
@@ -106,12 +103,13 @@ export default function Service({ isDigitalSecurityActive }) {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.1 }}>
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
             Smart Security Services for Your Safety
           </motion.h2>
         </motion.div>
 
-        {/* ✅ Swiper Carousel */}
+        {/* Swiper Carousel */}
         <div className="relative w-full max-w-5xl mx-auto">
           {loading ? (
             <div className="flex justify-center items-center h-64">
@@ -124,7 +122,7 @@ export default function Service({ isDigitalSecurityActive }) {
               effect={"coverflow"}
               grabCursor={true}
               centeredSlides={true}
-              loop={true}
+              loop={services.length > 1}
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
@@ -148,16 +146,21 @@ export default function Service({ isDigitalSecurityActive }) {
                 1024: { slidesPerView: 2, spaceBetween: 25 },
               }}
               modules={[EffectCoverflow, Pagination, Autoplay, Navigation]}
-              className="mySwiper">
+              className="mySwiper"
+            >
               {services.map((service) => {
                 const imageUrl = service.image.startsWith("http")
                   ? service.image
-                  : `${import.meta.env.VITE_API_URL}${service.image}`;
+                  : `${import.meta.env.VITE_API_URL}${service.image.replace(
+                      "/api",
+                      ""
+                    )}`;
 
                 return (
                   <SwiperSlide
                     key={service._id}
-                    className="relative group rounded-lg overflow-hidden shadow-md">
+                    className="relative group rounded-lg overflow-hidden shadow-md"
+                  >
                     <img
                       src={imageUrl}
                       alt={service.name}
@@ -188,7 +191,7 @@ export default function Service({ isDigitalSecurityActive }) {
             </div>
           )}
 
-          {/* ✅ Custom Navigation Buttons */}
+          {/* Custom Navigation Buttons */}
           <button className="swiper-button-prev-custom absolute left-1 sm:-left-6 top-1/2 -translate-y-1/2 bg-white/80 text-black w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-sm flex items-center justify-center z-20 hover:bg-gray-200 duration-200">
             <BiSolidLeftArrowAlt size={16} />
           </button>
